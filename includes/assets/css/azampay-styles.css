@@ -1,0 +1,149 @@
+.payment_method_azampay img {
+  max-height: 50px;
+}
+
+.payment_method_azampay p:first-child {
+  margin-bottom: 1em;
+}
+
+#wc-azampay-form {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#wc-azampay-form .payment-number-field {
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 2em;
+  background: #fff;
+  border: 1px solid #c4c4c4;
+  text-overflow: ellipsis;
+}
+
+#wc-azampay-form .payment-number-field:focus {
+  border: 1px solid #7f54b3;
+}
+
+#wc-azampay-form .azampesa-label-container {
+  display: flex;
+  justify-content: center;
+}
+
+#wc-azampay-form .azampesa-container {
+  display: inline-flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#wc-azampay-form .azampesa-right-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: #1e54b6;
+  align-items: center;
+  font-weight: bold;
+}
+
+#wc-azampay-form .azampesa-container * {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#wc-azampay-form .azampesa-container input {
+  margin-top: 23px;
+}
+
+#wc-azampay-form .azampesa-img.azampesa-img {
+  width: 163px;
+  max-height: 100%;
+}
+
+#wc-azampay-form .azampesa-container input,
+#wc-azampay-form .radio-btn-container div input {
+  cursor: pointer;
+  width: 17px;
+}
+
+#wc-azampay-form #other-mno-btn {
+  cursor: pointer;
+  background-color: transparent;
+  padding: 8px 16px;
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 15px;
+  border-radius: 10px;
+  align-items: center;
+  color: #666;
+}
+
+#wc-azampay-form #other-mno-btn::before {
+  content: "";
+  width: 23px;
+}
+
+#wc-azampay-form #other-mno-btn::after {
+  content: "+";
+  display: inline-block;
+  border: 1px solid #cfcece;
+  border-radius: 50%;
+  width: 23px;
+  height: 23px;
+}
+
+#wc-azampay-form #other-mno-btn.active::after {
+  content: "-";
+}
+
+#wc-azampay-form .radio-btn-container {
+  max-height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0 !important;
+  transition: max-height 0.2s ease-out, margin-block 0.2s ease-out;
+}
+
+#wc-azampay-form .radio-btn-container div {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  row-gap: 15px;
+}
+
+#wc-azampay-form .radio-btn-container input {
+  height: 100%;
+  margin: 0 !important;
+}
+
+#wc-azampay-form #other-mno-btn.active + .radio-btn-container {
+  margin-block: 1em;
+}
+
+#wc-azampay-form .radio-btn-container .other-partner-img.other-partner-img {
+  width: 100px;
+  max-height: 100%;
+  margin: 0 !important;
+}
+
+#wc-azampay-form .radio-btn-container label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+#wc-azampay-form .divider {
+  border-top: 1px solid #cfcece;
+  height: 0;
+  background: transparent;
+  margin-top: 16px !important;
+}
+
+#wc-azampay-form .radio-btn-container .divider.divider.divider {
+  margin-bottom: 0;
+}
