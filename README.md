@@ -49,7 +49,7 @@ TZS
 * AzamPesa
 * AirtelMoney
 * Halopesa
-* TigoPesa 
+* TigoPesa
 
 
 == Installation ==
@@ -85,8 +85,9 @@ For Tanzania 255xxxxxxxxx or xxxxxxxxx or 0xxxxxxxxx
 NO ‘+’ sign before country code
 
 == Important Links ==
-1. https://authenticator.azampay.co.tz/ and https://authenticator-sandbox.azampay.co.tz/ are authentication URLs to get the access token for the Checkout API of AzamPay Payment Gateway in the sandbox and production environment respectively. 
+1. https://authenticator.azampay.co.tz/ and https://authenticator-sandbox.azampay.co.tz/ are authentication URLs to get the access token for the Checkout API of AzamPay Payment Gateway in the sandbox and production environment respectively.
 2. https://sandbox.azampay.co.tz/ and https://checkout.azampay.co.tz/ are used in the sandbox and production environment respectively to process checkout payment request and related APIs.
+3. https://developers.azampay.co.tz/sandbox/registerapp is used to register for new users to get new client id, client secrets and other required access to use the plugin
 
 == Screenshots ==
 
@@ -96,7 +97,7 @@ NO ‘+’ sign before country code
 == Changelog ==
 
 = 1.0.0 =
-* Our first version with WooCommerce AzamPay Live and Sandbox. 
+* Our first version with WooCommerce AzamPay Live and Sandbox.
 * AzamPay Checkout API is fully supported.
 
 == Upgrade Notice ==
