@@ -14,12 +14,14 @@
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
+
 defined('ABSPATH') || exit;
 
 /**
  * Initialize AzamPay WooCommerce payment gateway.
  */
-function wc_azampay_payment_init() {
+function wc_azampay_payment_init()
+{
 
     if (!class_exists('WC_Payment_Gateway')) {
         add_action('admin_notices', 'wc_azampay_missing_notice');
@@ -28,7 +30,7 @@ function wc_azampay_payment_init() {
 
     add_action('admin_notices', 'wc_azampay_testmode_notice');
 
-    require_once dirname(__FILE__) . '/includes/class-wc-gateway-azampay.php';
+    require_once dirname(__FILE__) . '/includes/class-wc-azampay-gateway.php';
 
     add_filter('woocommerce_payment_gateways', 'wc_add_azampay', 99);
 
@@ -50,11 +52,12 @@ add_action('plugins_loaded', 'wc_azampay_payment_init', 99);
  *
  * @return array
  * */
-function woo_azampay_plugin_action_links($links) {
+function woo_azampay_plugin_action_links($links)
+{
     $settings_link = array('<a href="' .
-        admin_url('admin.php?page=wc-settings&tab=checkout&section=azampay') .
-        '" title="' . __('View AzamPay WooCommerce Settings', 'azampay-woo') . '">'
-        . __('Settings') . '</a>');
+        esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section=azampay')) .
+        '" title="' . esc_attr(__('View AzamPay WooCommerce Settings', 'azampay-woo')) . '">'
+        . esc_html(__('Settings')) . '</a>');
 
     return array_merge($settings_link, $links);
 }
@@ -66,7 +69,8 @@ function woo_azampay_plugin_action_links($links) {
  *
  * @return array
  */
-function woo_azampay_plugin_row_meta($links) {
+function woo_azampay_plugin_row_meta($links)
+{
 
     /**
      * The AzamPay Terms and Conditions URL.
@@ -93,8 +97,9 @@ function woo_azampay_plugin_row_meta($links) {
  *
  * @return array
  */
-function wc_add_azampay($methods) {
-    $methods[] = 'WC_Gateway_Azampay'; // payment gateway class name
+function wc_add_azampay($methods)
+{
+    $methods[] = 'WC_AzamPay_Gateway'; // payment gateway class name
     return $methods;
 }
 
@@ -105,7 +110,8 @@ function wc_add_azampay($methods) {
  *
  * @return array
  */
-function wc_add_currencies($currencies) {
+function wc_add_currencies($currencies)
+{
     $currencies['TZS'] = __('Tanzanian Shillings', 'azampay-woo');
     return $currencies;
 }
@@ -118,7 +124,8 @@ function wc_add_currencies($currencies) {
  *
  * @return string
  */
-function wc_add_currencies_symbol($currency_symbol, $currency) {
+function wc_add_currencies_symbol($currency_symbol, $currency)
+{
     switch ($currency) {
         case 'TZS':
             $currency_symbol = 'TZS';
@@ -130,14 +137,16 @@ function wc_add_currencies_symbol($currency_symbol, $currency) {
 /**
  * Display a notice if WooCommerce is not installed
  */
-function wc_azampay_missing_notice() {
-    echo wp_kses_post('<div class="error"><p><strong>' . sprintf(__('AzamPay requires WooCommerce to be installed and active. Click %s to install WooCommerce.', 'azampay-woo'), '<a href="' . admin_url('plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=772&height=539') . '" class="thickbox open-plugin-details-modal">here</a>') . '</strong></p></div>');
+function wc_azampay_missing_notice()
+{
+    echo wp_kses_post('<div class="error"><p><strong>' . sprintf(__('AzamPay requires WooCommerce to be installed and active. Click %s to install WooCommerce.', 'azampay-woo'), '<a href="' . esc_url(admin_url('plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=772&height=539')) . '" class="thickbox open-plugin-details-modal">here</a>') . '</strong></p></div>');
 }
 
 /**
  * Display the test mode notice.
  * */
-function wc_azampay_testmode_notice() {
+function wc_azampay_testmode_notice()
+{
 
     if (!current_user_can('manage_options') || 'woocommerce_page_wc-settings' !== get_current_screen()->id) {
         return;
