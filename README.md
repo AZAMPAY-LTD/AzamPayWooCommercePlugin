@@ -11,18 +11,18 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 Acquire consumer payments from all electronic money wallets in Tanzania.
 
 == Description ==
-AzamPay Momo woocommerce is a wordpress plugin that allows merchants to receive mobile money payments through their woocommerce checkout pages. This allows merchants to receive payments from their AzamPesa, TigoPesa, AirtelMoney, and HaloPesa customers.
+**AzamPay Momo WooCommerce** is a wordpress plugin that allows merchants to receive mobile money payments through their woocommerce checkout pages. This allows merchants to receive payments from their **AzamPesa**, **TigoPesa**, **AirtelMoney**, and **HaloPesa** customers.
 This plugin works both sandbox and production environment.
 
 = Take AzamPay payments easily and directly on your store =
 
 The plugin extends WooCommerce allowing you to take payments directly on your store via AzamPay’s API.
 
-AzamPay is available for Store Owners and Merchants in Tanzania.
+**AzamPay** is available for store owners and merchants in Tanzania.
 
 = Use Of Azampay Woocommerce Plugin as Third-Party Service =
 
-This plugin is developed to enable merchants and businesses to receive payment through AzamPay payment gateway provided by AzamPay Tanzania Limited
+This plugin is developed to enable merchants and businesses to receive payment through AzamPay payment gateway provided by **AzamPay Tanzania Limited**.
 Upon checkout, a push request is sent to the customers handset where they can then confirm payment.
 
 == User Manual ==
@@ -37,7 +37,7 @@ Upon checkout, a push request is sent to the customers handset where they can th
 
 = Live Environment =
 
-1. Submit KYCs to AzamPay to get Live credentials.
+1. Submit **KYCs** to AzamPay to get Live credentials.
 1. Disable Test Mode in the Plugin settings.
 1. Enter live credentials. Checkout is now enabled for live environment.
 
@@ -55,25 +55,25 @@ TZS
 == Installation ==
 This section describes how to install the plugin and get it working.
 
-= Automatic installation =
+**AUTOMATIC INSTALLATION**
 
-Automatic installation is the easiest option as WordPress handles the file transfers itself and you don’t need to leave your web browser. To do an automatic install of the WooCommerce AzamPay plugin, log in to your WordPress dashboard, navigate to the Plugins menu and click Add New.
+Automatic installation is the easiest option as WordPress handles the file transfers itself and you don’t need to leave your web browser. To do an automatic install of the **WooCommerce AzamPay** plugin, log in to your WordPress dashboard, navigate to the **Plugins** menu and click **Add New**.
 
-In the search field type “WooCommerce AzamPay” and click Search Plugins. Once you’ve found our plugin you can view details about it such as the description. Most importantly, of course, you can install it by simply clicking "Install Now", then "Activate".
+In the search field type **WooCommerce AzamPay** and click **Search Plugins**. Once you’ve found our plugin you can view details about it such as the description. Most importantly, of course, you can install it by simply clicking **Install Now**, then **Activate**.
 
-= Manual installation =
+**MANUAL INSTALLATION**
 
 The manual installation method involves downloading our plugin and uploading it to your web server via your favorite FTP application. The WordPress codex contains [instructions on how to do this here](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
 
-* Unzip woocommerce-azampay.zip to the /wp-content/plugins/ directory, or install from the WordPress Plugins Directory.
-* Activate the plugin through the ‘Plugins’ menu in WordPress.
-* Configure plugin under WooCommerce->Payments, look for AzamPay.
+* Unzip **woocommerce-azampay.zip** to the **/wp-content/plugins/** directory, or install from the **WordPress Plugins Directory**.
+* Activate the plugin through the **Plugins** menu in WordPress.
+* Configure plugin under **WooCommerce > Payments**, look for **AzamPay**.
 
 == Frequently Asked Questions ==
 
 = How do I approve the Payment? =
 
-After submitting the payment through MOMO, confirm the payment on your phone by entering the PIN number.
+After submitting the payment through **MOMO**, confirm the payment on your phone by entering the PIN number.
 
 = Which number is the payment request sent to? =
 
@@ -81,13 +81,13 @@ The payment request is sent to the mobile number provided during the checkout pr
 
 = What is the format of mobile number? =
 
-For Tanzania 255xxxxxxxxx or xxxxxxxxx or 0xxxxxxxxx
-NO ‘+’ sign before country code
+For **Tanzania** 255xxxxxxxxx or xxxxxxxxx or 0xxxxxxxxx
+No ‘+’ sign before country code
 
 == Important Links ==
-1. https://authenticator.azampay.co.tz/ and https://authenticator-sandbox.azampay.co.tz/ are authentication URLs to get the access token for the Checkout API of AzamPay Payment Gateway in the sandbox and production environment respectively.
-2. https://sandbox.azampay.co.tz/ and https://checkout.azampay.co.tz/ are used in the sandbox and production environment respectively to process checkout payment request and related APIs.
-3. https://developers.azampay.co.tz/sandbox/registerapp is used to register for new users to get new client id, client secrets and other required access to use the plugin
+1. **https://authenticator.azampay.co.tz** and **https://authenticator-sandbox.azampay.co.tz** are authentication URLs to get the access token for the Checkout API of AzamPay Payment Gateway in the sandbox and production environment respectively.
+2. **https://sandbox.azampay.co.tz** and **https://checkout.azampay.co.tz** are used in the sandbox and production environment respectively to process checkout payment request and related APIs.
+3. **https://developers.azampay.co.tz/sandbox/registerapp** is used to register for new users to get new client id, client secrets and other required access to use the plugin.
 
 == Screenshots ==
 
@@ -97,8 +97,8 @@ NO ‘+’ sign before country code
 == Changelog ==
 
 = 1.0.0 =
-* Our first version with WooCommerce AzamPay Live and Sandbox.
-* AzamPay Checkout API is fully supported.
+* Our first version with **WooCommerce AzamPay** Live and Sandbox.
+* **AzamPay Checkout API** is fully supported.
 
 == Upgrade Notice ==
 
