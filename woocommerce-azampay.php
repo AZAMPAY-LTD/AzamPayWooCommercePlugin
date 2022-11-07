@@ -20,29 +20,29 @@ defined('ABSPATH') || exit;
 /**
  * Initialize AzamPay WooCommerce payment gateway.
  */
-function wc_azampay_payment_init() {
+function woo_azampay_payment_init() {
 
 	if (!class_exists('WC_Payment_Gateway')) {
-		add_action('admin_notices', 'wc_azampay_missing_notice');
+		add_action('admin_notices', 'woo_azampay_missing_notice');
 		return;
 	}
 
-	add_action('admin_notices', 'wc_azampay_testmode_notice');
+	add_action('admin_notices', 'woo_azampay_testmode_notice');
 
-	require_once dirname(__FILE__) . '/includes/class-wc-azampay-gateway.php';
+	require_once dirname(__FILE__) . '/includes/class-woo-azampay-gateway.php';
 
-	add_filter('woocommerce_payment_gateways', 'wc_add_azampay', 99);
+	add_filter('woocommerce_payment_gateways', 'woo_azampay_add_payment_gateway', 99);
 
-	add_filter('woocommerce_currencies', 'wc_add_currencies');
+	add_filter('woocommerce_currencies', 'woo_azampay_add_currencies_to_store');
 
-	add_filter('woocommerce_currency_symbol', 'wc_add_currencies_symbol', 10, 2);
+	add_filter('woocommerce_currency_symbol', 'woo_azampay_add_currencies_symbol', 10, 2);
 
 	add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'woo_azampay_plugin_action_links');
 
 	add_filter('plugin_row_meta', 'woo_azampay_plugin_row_meta', 10, 2);
 }
 
-add_action('plugins_loaded', 'wc_azampay_payment_init', 99);
+add_action('plugins_loaded', 'woo_azampay_payment_init', 99);
 
 /**
  * Add Settings link to the plugin entry in the plugins menu.
@@ -72,12 +72,12 @@ function woo_azampay_plugin_row_meta( $links) {
 	/**
 	 * The AzamPay Terms and Conditions URL.
 	 */
-	$tnc_url = apply_filters('azampay_tnc_url', plugins_url('/includes/assets/docs/Terms_and_Conditions.pdf', __FILE__));
+	$tnc_url = apply_filters('azampay_tnc_url', plugins_url('/assets/public/docs/Terms_and_Conditions.pdf', __FILE__));
 
 	/**
 	 * The AzamPay Privacy Policy URL.
 	 */
-	$pp_url = apply_filters('azampay_pp_url', plugins_url('/includes/assets/docs/Privacy_Policy_V.1.0.pdf', __FILE__));
+	$pp_url = apply_filters('azampay_pp_url', plugins_url('/assets/public/docs/Privacy_Policy_V.1.0.pdf', __FILE__));
 
 	$row_meta = array(
 		'tnc' => '<a href="' . esc_url($tnc_url) . '" aria-label="' . esc_attr__('View AzamPay terms and conditions', 'azampay-woo') . '">' . esc_html__('Terms and Conditions', 'azampay-woo') . '</a>',
@@ -94,8 +94,8 @@ function woo_azampay_plugin_row_meta( $links) {
  *
  * @return array
  */
-function wc_add_azampay( $methods) {
-	$methods[] = 'WC_AzamPay_Gateway'; // payment gateway class name
+function woo_azampay_add_payment_gateway( $methods) {
+	$methods[] = 'Woo_AzamPay_Gateway'; // payment gateway class name
 	return $methods;
 }
 
@@ -106,7 +106,7 @@ function wc_add_azampay( $methods) {
  *
  * @return array
  */
-function wc_add_currencies( $currencies) {
+function woo_azampay_add_currencies_to_store( $currencies) {
 	$currencies['TZS'] = __('Tanzanian Shillings', 'azampay-woo');
 	return $currencies;
 }
@@ -119,7 +119,7 @@ function wc_add_currencies( $currencies) {
  *
  * @return string
  */
-function wc_add_currencies_symbol( $currency_symbol, $currency) {
+function woo_azampay_add_currencies_symbol( $currency_symbol, $currency) {
 	switch ($currency) {
 		case 'TZS':
 			$currency_symbol = 'TZS';
@@ -131,14 +131,14 @@ function wc_add_currencies_symbol( $currency_symbol, $currency) {
 /**
  * Display a notice if WooCommerce is not installed
  */
-function wc_azampay_missing_notice() {
+function woo_azampay_missing_notice() {
 	echo wp_kses_post('<div class="error"><p><strong>' . sprintf(__('AzamPay requires WooCommerce to be installed and active. Click %s to install WooCommerce.', 'azampay-woo'), '<a href="' . esc_url(admin_url('plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=772&height=539')) . '" class="thickbox open-plugin-details-modal">here</a>') . '</strong></p></div>');
 }
 
 /**
  * Display the test mode notice.
  * */
-function wc_azampay_testmode_notice() {
+function woo_azampay_testmode_notice() {
 
 	if (!current_user_can('manage_options') || 'woocommerce_page_wc-settings' !== get_current_screen()->id) {
 		return;
