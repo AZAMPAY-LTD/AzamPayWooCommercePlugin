@@ -472,6 +472,12 @@ class Woo_AzamPay_Gateway extends WC_Payment_Gateway {
 			return $result;
 		}
 
+		// check if user is authenticated
+    if (!$this->token_result['success']) {
+      $result['message'] = 'Your credentials are invalid.';
+      return $result;
+    } 
+
 		$partners_request = wp_remote_get($this->base_url . $this->partners_endpoint, array(
 			'headers' => array(
 				'Authorization' => 'Bearer ' . $this->token_result['token'],
