@@ -4,15 +4,15 @@ Tags: woocommerce, payment request, azampay, azampesa, mobile money, tigopesa, a
 Requires at least: 6.0
 Tested up to: 6.1
 Requires PHP: 7.0
-Stable tag: 1.0.0
+Stable tag: 1.0.2
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
 Acquire consumer payments from all electronic money wallets in Tanzania.
 
 == Description ==
-**AzamPay Momo WooCommerce** is a wordpress plugin that allows merchants to receive mobile money payments through their woocommerce checkout pages. This allows merchants to receive payments from their **AzamPesa**, **TigoPesa**, **AirtelMoney**, and **HaloPesa** customers.
-This plugin works both sandbox and production environment.
+**AzamPay Momo WooCommerce** is a WordPress plugin that allows merchants to receive mobile money payments through their woo-commerce checkout pages. This allows merchants to receive payments from their **AzamPesa**, **TigoPesa**, **AirtelMoney**, and **HaloPesa** customers.
+This plugin works in both sandbox and production environments.
 
 = Take AzamPay payments easily and directly on your store =
 
@@ -20,10 +20,10 @@ The plugin extends WooCommerce allowing you to take payments directly on your st
 
 **AzamPay** is available for store owners and merchants in Tanzania.
 
-= Use Of Azampay Woocommerce Plugin as Third-Party Service =
+= Use Of Azampay Woocommerce Plugin as a Third-Party Service =
 
-This plugin is developed to enable merchants and businesses to receive payment through AzamPay payment gateway provided by **AzamPay Tanzania Limited**.
-Upon checkout, a push request is sent to the customers handset where they can then confirm payment.
+This plugin is developed to enable merchants and businesses to receive payment through the AzamPay payment gateway provided by **AzamPay Tanzania Limited**.
+Upon checkout, a push request is sent to the customer's handset where they can then confirm payment.
 
 == User Manual ==
 
@@ -59,7 +59,7 @@ This section describes how to install the plugin and get it working.
 
 Automatic installation is the easiest option as WordPress handles the file transfers itself and you don’t need to leave your web browser. To do an automatic install of the **WooCommerce AzamPay** plugin, log in to your WordPress dashboard, navigate to the **Plugins** menu and click **Add New**.
 
-In the search field type **WooCommerce AzamPay** and click **Search Plugins**. Once you’ve found our plugin you can view details about it such as the description. Most importantly, of course, you can install it by simply clicking **Install Now**, then **Activate**.
+In the search field type **WooCommerce AzamPay** and click **Search Plugins**. Once you’ve found our plugin you can view details like the description. Most importantly, of course, you can install it by simply clicking **Install Now**, then **Activate**.
 
 **MANUAL INSTALLATION**
 
@@ -77,24 +77,30 @@ After submitting the payment through **MOMO**, confirm the payment on your phone
 
 = Which number is the payment request sent to? =
 
-The payment request is sent to the mobile number provided during the checkout process.
+The payment request is sent to the mobile number provided during checkout.
 
-= What is the format of mobile number? =
+= What is the format of the mobile number? =
 
 For **Tanzania** 255xxxxxxxxx or xxxxxxxxx or 0xxxxxxxxx
 No ‘+’ sign before country code
 
 == Important Links ==
 1. **https://authenticator.azampay.co.tz** and **https://authenticator-sandbox.azampay.co.tz** are authentication URLs to get the access token for the Checkout API of AzamPay Payment Gateway in the sandbox and production environment respectively.
-2. **https://sandbox.azampay.co.tz** and **https://checkout.azampay.co.tz** are used in the sandbox and production environment respectively to process checkout payment request and related APIs.
-3. **https://developers.azampay.co.tz/sandbox/registerapp** is used to register for new users to get new client id, client secrets and other required access to use the plugin.
+2. **https://sandbox.azampay.co.tz** and **https://checkout.azampay.co.tz** are used in the sandbox and production environment respectively to process checkout payment requests and related APIs.
+3. **https://developers.azampay.co.tz/sandbox/registerapp** is used to register new users to get new client IDs, client secrets, and other required access to use the plugin.
 
 == Screenshots ==
 
-1. The AzamPay Gateway settings screen used to configure the main azampay gateway.
+1. The AzamPay Gateway settings screen is used to configure the main Azampay gateway.
 2. Checkout page that offers a range of payment methods such as local and alternative payment methods.
 
 == Changelog ==
+
+= 1.0.2 =
+* Added source field in checkout data.
+
+= 1.0.1 =
+* Fixed bugs related to token authentication.
 
 = 1.0.0 =
 * Our first version with **WooCommerce AzamPay** Live and Sandbox.
@@ -102,5 +108,11 @@ No ‘+’ sign before country code
 
 == Upgrade Notice ==
 
-= 1.0 =
-First version of the plugin.
+= 1.0.2 =
+This version adds a source field in the checkout data.
+
+= 1.0.1 =
+This version fixes credential-related bugs. Upgrade immediately.
+
+= 1.0.0 =
+The first version of the plugin (This version is now obsolete).

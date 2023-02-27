@@ -7,11 +7,11 @@
  *
  * @class       Woo_AzamPay_Gateway
  * @extends     WC_Payment_Gateway
- * @version     1.0.0
+ * @version     1.0.2
  * @package     WooCommerce\Classes\Payment
  */
 
-define('WOO_AZAMPAY_VERSION', '1.0');
+define('WOO_AZAMPAY_VERSION', '1.0.2');
 
 if ( ! class_exists( 'Woo_AzamPay_Gateway' ) ) {
 class Woo_AzamPay_Gateway extends WC_Payment_Gateway {
@@ -46,6 +46,8 @@ class Woo_AzamPay_Gateway extends WC_Payment_Gateway {
 		$this->partners_endpoint = 'api/v1/Partner/GetPaymentPartners';
 		$this->mno_endpoint = 'azampay/mno/checkout';
 		$this->token_endpoint = 'AppRegistration/GenerateToken';
+
+    $this->source = 'Woo commerce Plugin';
 
 		// Load the form fields
 		$this->init_form_fields();
@@ -784,6 +786,7 @@ class Woo_AzamPay_Gateway extends WC_Payment_Gateway {
 
 		$checkout_data = array(
 			'provider' => sanitize_text_field($_POST['payment_network']),
+			'source' => $this->source,
 			'accountNumber' => sanitize_text_field($_POST['payment_number']),
 			'amount' => $order->get_total(),
 			'externalId' => $order->get_id(),

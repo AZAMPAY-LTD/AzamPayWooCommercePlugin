@@ -4,7 +4,7 @@
  * Plugin Name: WooCommerce AzamPay
  * Plugin URI: https://azampay.co.tz/
  * Description: Acquire consumer payments from all electronic money wallets in Tanzania.
- * Version: 1.0.0
+ * Version: 1.0.2
  * Author: AzamPay
  * Author URI: https://azampay.co.tz/
  * Requires PHP: 7.0
