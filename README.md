@@ -4,7 +4,7 @@ Tags: woocommerce, payment request, azampay, azampesa, mobile money, tigopesa, a
 Requires at least: 6.0
 Tested up to: 6.1
 Requires PHP: 7.0
-Stable tag: 1.0.2
+Stable tag: 1.0.5
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -96,6 +96,15 @@ No ‘+’ sign before country code
 
 == Changelog ==
 
+= 1.0.5 =
+Removed "Pay with other MNO" button. All payment options are displayed by default.
+
+= 1.0.4 =
+This version fix css issues.
+
+= 1.0.3 =
+This version adds a separate the menu id on woocommerce settings layout.
+
 = 1.0.2 =
 * Added source field in checkout data.
 
@@ -107,6 +116,15 @@ No ‘+’ sign before country code
 * **AzamPay Checkout API** is fully supported.
 
 == Upgrade Notice ==
+
+= 1.0.5 =
+Removed "Pay with other MNO" button. All payment options are displayed by default.
+
+= 1.0.4 =
+This version fix css issues.
+
+= 1.0.3 =
+This version adds a separate the menu id on woocommerce settings layout.
 
 = 1.0.2 =
 This version adds a source field in the checkout data.
