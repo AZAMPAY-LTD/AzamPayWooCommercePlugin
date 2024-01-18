@@ -4,7 +4,7 @@
  * Plugin Name: WooCommerce AzamPay
  * Plugin URI: https://azampay.co.tz/
  * Description: Acquire consumer payments from all electronic money wallets in Tanzania.
- * Version: 1.0.2
+ * Version: 1.0.5
  * Author: AzamPay
  * Author URI: https://azampay.co.tz/
  * Requires PHP: 7.0
@@ -53,9 +53,7 @@ add_action('plugins_loaded', 'woo_azampay_payment_init', 99);
  * */
 function woo_azampay_plugin_action_links( $links) {
 	$settings_link = array('<a href="' .
-		esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section=azampay')) .
-		'" title="' . esc_attr(__('View AzamPay WooCommerce Settings', 'azampay-woo')) . '">'
-		. esc_html(__('Settings')) . '</a>');
+		esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section=azampaymomo')) . '" title="' . esc_attr(__('View AzamPay WooCommerce Settings', 'azampay-woo')) . '">' . esc_html(__('Settings')) . '</a>');
 
 	return array_merge($settings_link, $links);
 }
@@ -148,6 +146,6 @@ function woo_azampay_testmode_notice() {
 	$test_mode = isset($azampay_settings['test_mode']) ? $azampay_settings['test_mode'] : '';
 	$enabled = isset($azampay_settings['enabled']) ? $azampay_settings['enabled'] : '';
 	if ('yes' === $enabled && 'yes' === $test_mode) {
-		echo wp_kses_post('<div class="error"><p>' . sprintf(__('AzamPay test mode is still enabled, Click <strong><a href="%s">here</a></strong> to disable it when you want to start accepting live payment on your site.', 'azampay-woo'), esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section=azampay'))) . '</p></div>');
+		echo wp_kses_post('<div class="error"><p>' . sprintf(__('AzamPay test mode is still enabled, Click <strong><a href="%s">here</a></strong> to disable it when you want to start accepting live payment on your site.', 'azampay-woo'), esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section=azampaymomo'))) . '</p></div>');
 	}
 }
