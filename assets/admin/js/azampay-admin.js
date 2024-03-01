@@ -5,9 +5,7 @@ jQuery(function ($) {
 
     var testMode = $(`#woocommerce_${id}_test_mode`);
 
-    var allowedPartners = $(`#woocommerce_${id}_allowed_partners`).closest(
-      "tr"
-    );
+    var allowedPartners = $(`#woocommerce_${id}_allowed_partners`).closest("tr");
 
     var prodInstructions = `<tr valign="top">
                                   <th scope="row" class="titledesc">

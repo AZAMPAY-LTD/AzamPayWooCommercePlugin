@@ -2,10 +2,12 @@
 Contributors: azampay
 Tags: woocommerce, payment request, azampay, azampesa, mobile money, tigopesa, airtel money, halopesa, tanzania, online payments, mpesa, malipo
 Requires at least: 6.0
-Tested up to: 6.1
+Tested up to: 6.4.2
 Requires PHP: 7.0
-Stable tag: 1.0.5
-License: GPL-2.0+
+WC requires at least: 8.2.0
+WC tested up to: 8.5.1
+Stable tag: 1.1.0
+License: GPL-3.0+
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
 Acquire consumer payments from all electronic money wallets in Tanzania.
@@ -16,7 +18,7 @@ This plugin works in both sandbox and production environments.
 
 = Take AzamPay payments easily and directly on your store =
 
-The plugin extends WooCommerce allowing you to take payments directly on your store via AzamPay’s API.
+The plugin extends WooCommerce allowing you to take payments directly on your store via AzamPay's API.
 
 **AzamPay** is available for store owners and merchants in Tanzania.
 
@@ -57,9 +59,9 @@ This section describes how to install the plugin and get it working.
 
 **AUTOMATIC INSTALLATION**
 
-Automatic installation is the easiest option as WordPress handles the file transfers itself and you don’t need to leave your web browser. To do an automatic install of the **WooCommerce AzamPay** plugin, log in to your WordPress dashboard, navigate to the **Plugins** menu and click **Add New**.
+Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of the **WooCommerce AzamPay** plugin, log in to your WordPress dashboard, navigate to the **Plugins** menu and click **Add New**.
 
-In the search field type **WooCommerce AzamPay** and click **Search Plugins**. Once you’ve found our plugin you can view details like the description. Most importantly, of course, you can install it by simply clicking **Install Now**, then **Activate**.
+In the search field type **WooCommerce AzamPay** and click **Search Plugins**. Once you've found our plugin you can view details like the description. Most importantly, of course, you can install it by simply clicking **Install Now**, then **Activate**.
 
 **MANUAL INSTALLATION**
 
@@ -82,7 +84,7 @@ The payment request is sent to the mobile number provided during checkout.
 = What is the format of the mobile number? =
 
 For **Tanzania** 255xxxxxxxxx or xxxxxxxxx or 0xxxxxxxxx
-No ‘+’ sign before country code
+No '+' sign before country code
 
 == Important Links ==
 1. **https://authenticator.azampay.co.tz** and **https://authenticator-sandbox.azampay.co.tz** are authentication URLs to get the access token for the Checkout API of AzamPay Payment Gateway in the sandbox and production environment respectively.
@@ -96,14 +98,18 @@ No ‘+’ sign before country code
 
 == Changelog ==
 
+= 1.1.0 =
+* Added Checkout Blocks support.
+* Added WooCommerce Custom Orders Table support.
+
 = 1.0.5 =
-Removed "Pay with other MNO" button. All payment options are displayed by default.
+* Removed "Pay with other MNO" button. All payment options are displayed by default.
 
 = 1.0.4 =
-This version fix css issues.
+* Fixed css issues.
 
 = 1.0.3 =
-This version adds a separate the menu id on woocommerce settings layout.
+* Added separate menu id on woocommerce settings layout.
 
 = 1.0.2 =
 * Added source field in checkout data.
@@ -116,6 +122,9 @@ This version adds a separate the menu id on woocommerce settings layout.
 * **AzamPay Checkout API** is fully supported.
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+* This version adds support for Checkout Blocks in WooCommerce. The plugin has been updated to work with the latest version of WooCommerce.
 
 = 1.0.5 =
 Removed "Pay with other MNO" button. All payment options are displayed by default.

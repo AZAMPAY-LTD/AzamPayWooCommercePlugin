@@ -11,7 +11,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  
+  border: none;
+}
+
+#wc-azampaymomo-form.wc-payment-form.block-field {
+  padding-block: 0 !important;
+  margin-block: 0 !important;
+  border: 0px;
 }
 
 #wc-azampaymomo-form .payment-number-field {
@@ -63,12 +69,12 @@
 }
 
 #wc-azampaymomo-form .azampesa-container input,
-#wc-azampaymomo-form .radio-btn-container div input {
+#wc-azampaymomo-form .radio-btn-container input {
   cursor: pointer;
   width: 17px;
 }
 
-#wc-azampaymomo-form .radio-btn-container div {
+#wc-azampaymomo-form .radio-btn-container {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
@@ -91,4 +97,18 @@
   display: flex;
   align-items: center;
   gap: 3px;
+}
+
+.mt-0 {
+  margin-top: 0 !important;
+}
+
+.wc-azampay-logo {
+  margin-right: 2rem !important;
+  flex: 1;
+}
+
+.wc-azampay-logo img {
+  min-width: 60px;
+  min-height: 40px;
 }
