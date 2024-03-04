@@ -8,6 +8,7 @@ defined( 'ABSPATH' ) || exit;
  * AzamPay Payments Blocks integration
  *
  * @since 1.1.0
+ * @version 1.1.1
  */
 final class Woo_AzamPay_Blocks_Support extends AbstractPaymentMethodType {
 
@@ -81,6 +82,9 @@ final class Woo_AzamPay_Blocks_Support extends AbstractPaymentMethodType {
 	/**
 	 * Returns an array of key=>value pairs of data made available to the payment methods script.
 	 *
+   * @since 1.1.0
+   * @version 1.1.1
+   * 
 	 * @return array
 	 */
 	public function get_payment_method_data() {
@@ -90,7 +94,7 @@ final class Woo_AzamPay_Blocks_Support extends AbstractPaymentMethodType {
       'name'        => Woo_AzamPay_Gateway::ID,
 			'title'       => $this->gateway->title,
       'description' => $this->gateway->get_description(),
-      'icon'        => $this->gateway->get_icon(),
+      'icon'        => Woo_AzamPay_Gateway::$icon_url,
       'partners'    => [
         'data'    => $this->gateway->get_allowed_partners(),
         'icons'   => $this->get_partner_icons()

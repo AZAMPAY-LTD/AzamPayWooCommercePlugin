@@ -6,7 +6,7 @@ Tested up to: 6.4.2
 Requires PHP: 7.0
 WC requires at least: 8.2.0
 WC tested up to: 8.5.1
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPL-3.0+
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -98,6 +98,9 @@ No '+' sign before country code
 
 == Changelog ==
 
+= 1.1.1 =
+* Fixed invalid icon for Legacy Checkout.
+
 = 1.1.0 =
 * Added Checkout Blocks support.
 * Added WooCommerce Custom Orders Table support.
@@ -123,8 +126,11 @@ No '+' sign before country code
 
 == Upgrade Notice ==
 
+= 1.1.1 =
+This version fixes the invalid icon for pages using Legacy Checkout. 
+
 = 1.1.0 =
-* This version adds support for Checkout Blocks in WooCommerce. The plugin has been updated to work with the latest version of WooCommerce.
+This version adds support for Checkout Blocks in WooCommerce. The plugin has been updated to work with the latest version of WooCommerce.
 
 = 1.0.5 =
 Removed "Pay with other MNO" button. All payment options are displayed by default.

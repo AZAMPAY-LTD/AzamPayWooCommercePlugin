@@ -23,6 +23,21 @@ class Woo_AzamPay_Gateway extends WC_Payment_Gateway
 	 */
 	public $testmode;
 
+
+	/**
+	 * Text that appears on checkout page
+	 *
+	 * @var string
+	 */
+  public $title;
+
+	/**
+	 * Url to logo for checkout page
+	 *
+	 * @var string
+	 */
+  public static $icon_url = WC_AZAMPAY_PLUGIN_URL . '/assets/public/images/logo.png';
+
 	/**
 	 * Should the order be marked as complete on payment?
 	 *
@@ -144,7 +159,7 @@ class Woo_AzamPay_Gateway extends WC_Payment_Gateway
   public function __construct()
   {
     $this->id = self::ID;
-    $this->icon = $this->get_icon();
+    $this->icon = self::$icon_url;
     $this->method_title = __('AzamPay', 'azampay-woo'); 
     $this->method_description = __('Acquire consumer payments from all electronic money wallets in Tanzania.', 'azampay-woo');
     $this->has_fields = true;
@@ -372,10 +387,14 @@ class Woo_AzamPay_Gateway extends WC_Payment_Gateway
 	 * Get gateway icon.
 	 *
    * @since 1.1.0
+   * @version 1.1.1
+   * 
 	 * @return string
 	 */
 	public function get_icon() {
-    return apply_filters('woocommerce_azampay_icon', WC_AZAMPAY_PLUGIN_URL . '/assets/public/images/logo.png', $this->id);
+    $icon = $this->icon ? '<img src="' . WC_HTTPS::force_https_url( $this->icon ) . '" alt="' . esc_attr( $this->title ) . '" />' : '';
+
+    return apply_filters( 'woocommerce_gateway_icon', $icon, $this->id );
 	}
 
   /**
