@@ -6,7 +6,7 @@
  * Description: Acquire consumer payments from all electronic money wallets in Tanzania.
  * Author: AzamPay
  * Author URI: https://azampay.co.tz/
- * Version: 1.1.1
+ * Version: 1.1.2
  * Requires at least: 6.0
  * Tested up to: 6.4.2
  * Requires PHP: 7.0
@@ -22,7 +22,7 @@ defined('ABSPATH') || exit;
 /**
  * Required minimums and constants
  */
-define( 'WC_AZAMPAY_VERSION', '1.1.1' ); // WRCS: DEFINED_VERSION.
+define( 'WC_AZAMPAY_VERSION', '1.1.2' ); // WRCS: DEFINED_VERSION.
 define( 'WC_AZAMPAY_MIN_PHP_VER', '7.0.0' );
 define( 'WC_AZAMPAY_MIN_WC_VER', '7.4' );
 define( 'WC_AZAMPAY_FUTURE_MIN_WC_VER', '7.5' );
@@ -155,14 +155,14 @@ function woocommerce_azampay() {
        * Add Settings link to the plugin entry in the plugins menu.
        *
        * @since 1.0.0
-       * @version 1.1.0
+       * @version 1.1.2
        * @param array $links Plugin action links.
        *
        * @return array
        * */
       public function plugin_action_links( $links ) {
         $settings_link = array('<a href="' .
-          esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section=azampaymomo')) . '" title="' . esc_attr(__('View AzamPay WooCommerce Settings', 'azampay-woo')) . '">' . esc_html(__('Settings')) . '</a>');
+          esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section=' . Woo_AzamPay_Gateway::ID)) . '" title="' . esc_attr(__('View AzamPay WooCommerce Settings', 'azampay-woo')) . '">' . esc_html(__('Settings')) . '</a>');
 
         return array_merge( $settings_link, $links );
       }

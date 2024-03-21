@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit;
  * AzamPay Payments Blocks integration
  *
  * @since 1.1.0
- * @version 1.1.1
+ * @version 1.1.2
  */
 final class Woo_AzamPay_Blocks_Support extends AbstractPaymentMethodType {
 
@@ -105,6 +105,9 @@ final class Woo_AzamPay_Blocks_Support extends AbstractPaymentMethodType {
 
 	/**
 	 * Return the icons urls.
+   * 
+   * @since 1.1.0
+   * @version 1.1.2
 	 *
 	 * @return array Arrays of icons metadata.
 	 */
@@ -125,6 +128,10 @@ final class Woo_AzamPay_Blocks_Support extends AbstractPaymentMethodType {
 			'Airtel' => [
 				'src' => WC_AZAMPAY_PLUGIN_URL . '/assets/public/images/airtel-logo.svg',
 				'alt' => __( 'Airtel', 'azampay-woo' ),
+			],
+			'vodacom' => [
+				'src' => WC_AZAMPAY_PLUGIN_URL . '/assets/public/images/vodacom-logo.png',
+				'alt' => __( 'Vodacom', 'azampay-woo' ),
 			],
 		];
 		return $icons_src;

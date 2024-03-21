@@ -6,7 +6,7 @@ Tested up to: 6.4.2
 Requires PHP: 7.0
 WC requires at least: 8.2.0
 WC tested up to: 8.5.1
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPL-3.0+
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -98,6 +98,9 @@ No '+' sign before country code
 
 == Changelog ==
 
+= 1.1.2 =
+* Added support for **M-Pesa**.
+
 = 1.1.1 =
 * Fixed invalid icon for Legacy Checkout.
 
@@ -125,6 +128,9 @@ No '+' sign before country code
 * **AzamPay Checkout API** is fully supported.
 
 == Upgrade Notice ==
+
+= 1.1.2 =
+This version adds support for M-Pesa.
 
 = 1.1.1 =
 This version fixes the invalid icon for pages using Legacy Checkout. 

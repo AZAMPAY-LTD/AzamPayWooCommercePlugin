@@ -71,6 +71,7 @@ class Woo_AzamPay_Gateway extends WC_Payment_Gateway
     'HaloPesa' => 'Halopesa',
     'Tigopesa' => 'Tigo',
     'Airtel' => 'Airtel',
+    'vodacom' => 'Mpesa'
   ];
 
 	/**
@@ -182,6 +183,7 @@ class Woo_AzamPay_Gateway extends WC_Payment_Gateway
       'HaloPesa' => true,
       'Tigopesa' => true,
       'Airtel' => true,
+      'vodacom' => true,
     ] : $this->get_option('allowed_partners');
 
     $access_key = $this->testmode ? 'test' : 'prod';
@@ -368,6 +370,7 @@ class Woo_AzamPay_Gateway extends WC_Payment_Gateway
    * Save custom fields.
    * 
    * @since 1.0.0
+   * @version 1.1.2
    */
   public function process_admin_options()
   {
@@ -375,9 +378,10 @@ class Woo_AzamPay_Gateway extends WC_Payment_Gateway
 
     $this->allowed_partners = [
       'Azampesa' => true,
-      'HaloPesa' => isset($_POST['woocommerce_azampaymomo_halopesa_allowed']),
-      'Tigopesa' => isset($_POST['woocommerce_azampaymomo_tigopesa_allowed']),
-      'Airtel' => isset($_POST['woocommerce_azampaymomo_airtel_allowed']),
+      'HaloPesa' => isset($_POST['woocommerce_' . self::ID . '_halopesa_allowed']),
+      'Tigopesa' => isset($_POST['woocommerce_' . self::ID . '_tigopesa_allowed']),
+      'Airtel' => isset($_POST['woocommerce_' . self::ID . '_airtel_allowed']),
+      'vodacom' => isset($_POST['woocommerce_' . self::ID . '_vodacom_allowed']),
     ];
 
     $this->update_option('allowed_partners', $this->allowed_partners);
@@ -692,7 +696,7 @@ class Woo_AzamPay_Gateway extends WC_Payment_Gateway
    * Display the payment fields.
    * 
    * @since 1.0.0
-   * @version 1.1.0
+   * @version 1.1.2
    */
   public function payment_fields()
   {
@@ -751,21 +755,26 @@ class Woo_AzamPay_Gateway extends WC_Payment_Gateway
       $partners = $this->get_allowed_partners();
 
       foreach ($partners as $partner_name => $partner_value) {
+        $logo_path = WC_AZAMPAY_PLUGIN_URL . '/assets/public/images/' . esc_attr(strtolower($partner_name)) . '-logo.svg';
+        
         if ($partner_name === 'Azampesa') {
           $azampesa_field = '<div class="form-row form-row-wide azampesa-label-container">
                             <label class="azampesa-container">
                               <input id="azampesa-radio-btn" type="radio" name="payment_network" value=' . esc_attr($partner_value) . ' />
                               <div class="azampesa-right-block">
                                 <p>Pay with AzamPesa</p>
-                                <img class="azampesa-img" src=' . WC_AZAMPAY_PLUGIN_URL . '/assets/public/images/azampesa-logo.svg' . ' alt=' . esc_attr($partner_value) . ' />
+                                <img class="azampesa-img" src=' . $logo_path . ' alt=' . esc_attr($partner_value) . ' />
                               </div>
                             </label>
                           </div>';
         } else {
-          $logo_path = '/assets/public/images/' . esc_attr(strtolower($partner_name)) . '-logo.svg';
+          if ($partner_name === 'vodacom') {
+            $logo_path = WC_AZAMPAY_PLUGIN_URL . '/assets/public/images/vodacom-logo.png';
+          }
+
           $other_fields .= '<label>
                         <input class="other-partners-radio-btn" type="radio" name="payment_network" value=' . esc_attr($partner_value) . ' />
-                        <img class="other-partner-img" src=' . WC_AZAMPAY_PLUGIN_URL . $logo_path . ' alt=' . esc_attr($partner_name) . ' />
+                        <img class="other-partner-img" src=' . $logo_path . ' alt=' . esc_attr($partner_name) . ' />
                       </label>';
         }
       }

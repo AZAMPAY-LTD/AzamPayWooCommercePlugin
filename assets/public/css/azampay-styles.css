@@ -74,11 +74,16 @@
   width: 17px;
 }
 
+#wc-azampaymomo-form .radio-btn-container::before,
+#wc-azampaymomo-form .radio-btn-container::after {
+	content: unset;
+}
+
 #wc-azampaymomo-form .radio-btn-container {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  row-gap: 15px;
+  gap: 15px;
 }
 
 #wc-azampaymomo-form .radio-btn-container input {
@@ -88,6 +93,7 @@
 
 #wc-azampaymomo-form .radio-btn-container .other-partner-img.other-partner-img {
   width: 100px;
+  border-radius: 40px;
   max-height: 100%;
   margin: 0 !important;
 }
