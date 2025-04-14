@@ -8,7 +8,7 @@
  * Author URI: https://azampay.co.tz/
  * Version: 1.1.2
  * Requires at least: 6.0
- * Tested up to: 6.4.2
+ * Tested up to: 6.7.2
  * Requires PHP: 7.0
  * WC requires at least: 8.2.0
  * WC tested up to: 8.5.1
