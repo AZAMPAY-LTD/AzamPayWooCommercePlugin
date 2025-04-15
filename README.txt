@@ -98,6 +98,9 @@ No '+' sign before country code
 
 == Changelog ==
 
+= 1.1.3 =
+* Added support for wordpress 6.7.2.
+
 = 1.1.2 =
 * Added support for **M-Pesa**.
 
@@ -128,6 +131,9 @@ No '+' sign before country code
 * **AzamPay Checkout API** is fully supported.
 
 == Upgrade Notice ==
+
+= 1.1.3 =
+* Added support for wordpress 6.7.2.
 
 = 1.1.2 =
 This version adds support for M-Pesa.
