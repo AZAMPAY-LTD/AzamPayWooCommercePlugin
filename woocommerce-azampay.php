@@ -6,7 +6,7 @@
  * Description: Acquire consumer payments from all electronic money wallets in Tanzania.
  * Author: AzamPay
  * Author URI: https://azampay.co.tz/
- * Version: 1.1.2
+ * Version: 1.1.3
  * Requires at least: 6.0
  * Tested up to: 6.7.2
  * Requires PHP: 7.0
@@ -22,7 +22,7 @@ defined('ABSPATH') || exit;
 /**
  * Required minimums and constants
  */
-define( 'WC_AZAMPAY_VERSION', '1.1.2' ); // WRCS: DEFINED_VERSION.
+define( 'WC_AZAMPAY_VERSION', '1.1.3' ); // WRCS: DEFINED_VERSION.
 define( 'WC_AZAMPAY_MIN_PHP_VER', '7.0.0' );
 define( 'WC_AZAMPAY_MIN_WC_VER', '7.4' );
 define( 'WC_AZAMPAY_FUTURE_MIN_WC_VER', '7.5' );
