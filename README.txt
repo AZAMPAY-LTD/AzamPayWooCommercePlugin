@@ -1,12 +1,12 @@
-=== WooCommerce AzamPay ===
+=== AzamPay Payment Gateway for WooCommerce ===
 Contributors: azampay
 Tags: woocommerce, payment request, azampay, azampesa, mobile money, tigopesa, airtel money, halopesa, tanzania, online payments, mpesa, malipo
 Requires at least: 6.0
-Tested up to: 6.7.2
-Requires PHP: 7.0
-WC requires at least: 8.2.0
-WC tested up to: 8.5.1
-Stable tag: 1.1.3
+Tested up to: 6.8.2
+Requires PHP: 8.0
+WC requires at least: 10.1.0
+WC tested up to: 10.1.0
+Stable tag: 1.1.4
 License: GPL-3.0+
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -98,6 +98,9 @@ No '+' sign before country code
 
 == Changelog ==
 
+= 1.1.4 =
+* Added support for WooCommerce 10.1.0 and PHP 8.0.
+
 = 1.1.3 =
 * Added support for wordpress 6.7.2.
 
@@ -131,6 +134,9 @@ No '+' sign before country code
 * **AzamPay Checkout API** is fully supported.
 
 == Upgrade Notice ==
+
+= 1.1.4 =
+* Added support for WooCommerce 10.1.0 and PHP 8.0.
 
 = 1.1.3 =
 * Added support for wordpress 6.7.2.

@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Plugin Name: WooCommerce AzamPay
+* Plugin Name: AzamPay Payment Gateway for WooCommerce
  * Plugin URI: https://azampay.co.tz/
  * Description: Acquire consumer payments from all electronic money wallets in Tanzania.
  * Author: AzamPay
  * Author URI: https://azampay.co.tz/
- * Version: 1.1.3
+ * Version: 1.1.4
  * Requires at least: 6.0
- * Tested up to: 6.7.2
- * Requires PHP: 7.0
- * WC requires at least: 8.2.0
- * WC tested up to: 8.5.1
+ * Tested up to: 6.8.2
+ * Requires PHP: 8.0
+ * WC requires at least: 10.1.0
+ * WC tested up to: 10.1.0
  * Text Domain: azampay-woo
  * License: GPL-3.0+
  * License URI: https://www.gnu.org/licenses/gpl-3.0.txt
@@ -22,10 +22,10 @@ defined('ABSPATH') || exit;
 /**
  * Required minimums and constants
  */
-define( 'WC_AZAMPAY_VERSION', '1.1.3' ); // WRCS: DEFINED_VERSION.
-define( 'WC_AZAMPAY_MIN_PHP_VER', '7.0.0' );
-define( 'WC_AZAMPAY_MIN_WC_VER', '7.4' );
-define( 'WC_AZAMPAY_FUTURE_MIN_WC_VER', '7.5' );
+define( 'WC_AZAMPAY_VERSION', '1.1.4' ); // WRCS: DEFINED_VERSION.
+define( 'WC_AZAMPAY_MIN_PHP_VER', '8.0' );
+define( 'WC_AZAMPAY_MIN_WC_VER', '10.1.0' );
+define( 'WC_AZAMPAY_FUTURE_MIN_WC_VER', '10.1.0' );
 define( 'WC_AZAMPAY_MAIN_FILE', __FILE__ );
 define( 'WC_AZAMPAY_ABSPATH', __DIR__ . '/' );
 define( 'WC_AZAMPAY_PLUGIN_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
