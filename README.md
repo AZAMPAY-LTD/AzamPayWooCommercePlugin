@@ -59,9 +59,9 @@ This section describes how to install the plugin and get it working.
 
 **AUTOMATIC INSTALLATION**
 
-Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of the **WooCommerce AzamPay** plugin, log in to your WordPress dashboard, navigate to the **Plugins** menu and click **Add New**.
+Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't need to leave your web browser. To do an automatic install of the **AzamPay for WooCommerce** plugin, log in to your WordPress dashboard, navigate to the **Plugins** menu and click **Add New**.
 
-In the search field type **WooCommerce AzamPay** and click **Search Plugins**. Once you've found our plugin you can view details like the description. Most importantly, of course, you can install it by simply clicking **Install Now**, then **Activate**.
+In the search field type **AzamPay for WooCommerce** and click **Search Plugins**. Once you've found our plugin you can view details like the description. Most importantly, of course, you can install it by simply clicking **Install Now**, then **Activate**.
 
 **MANUAL INSTALLATION**
 
@@ -130,7 +130,7 @@ No '+' sign before country code
 * Fixed bugs related to token authentication.
 
 = 1.0.0 =
-* Our first version with **WooCommerce AzamPay** Live and Sandbox.
+* Our first version with **AzamPay for WooCommerce** Live and Sandbox.
 * **AzamPay Checkout API** is fully supported.
 
 == Upgrade Notice ==

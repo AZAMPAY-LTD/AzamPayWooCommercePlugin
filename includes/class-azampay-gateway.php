@@ -3,7 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * WooCommerce AzamPay.
+ * AzamPay for WooCommerce.
  *
  * Provides a AzamPay Mobile Payment Gateway.
  *

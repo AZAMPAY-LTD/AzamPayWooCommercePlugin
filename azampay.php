@@ -1,7 +1,7 @@
 <?php
 
 /**
-* Plugin Name: AzamPay Payment Gateway for WooCommerce
+* Plugin Name: Payment Gateway for AzamPay on WooCommerce
  * Plugin URI: https://azampay.co.tz/
  * Description: Acquire consumer payments from all electronic money wallets in Tanzania.
  * Author: AzamPay
