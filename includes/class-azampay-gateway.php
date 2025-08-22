@@ -302,23 +302,9 @@ class AzamPay_Gateway extends WC_Payment_Gateway
           ?>
 
           <!-- Callback URL Notice -->
-          <h4>
-              <strong>
-                  <?php
-                  // translators: %1$s is the callback URL.
-                  echo esc_html(
-                      sprintf(
-                          // translators: %1$s is the callback URL.
-                                                    esc_html__(
-                                                        'Mandatory: To verify your transactions and update order status set your callback URL while registering your store to the URL below<span style="color: red"><pre><code>%1$s</code></pre></span>',
-                                                        'azampay'
-                                                    ),
-                          esc_url(get_site_url() . '/?wc-api=wc_azampay_webhook')
-                      )
-                  );
-                  ?>
-              </strong>
-          </h4>
+   <h4>
+        <strong><?php printf(__('Mandatory: To verify your transactions and update order status set your callback URL while registering your store to the URL below<span style="color: red"><pre><code>%1$s</code></pre></span>', 'azampay-woo'), get_site_url() . '/?wc-api=wc_azampay_webhook'); ?></strong>
+      </h4>
 
           <!-- Settings Form Table -->
           <table class="form-table">
