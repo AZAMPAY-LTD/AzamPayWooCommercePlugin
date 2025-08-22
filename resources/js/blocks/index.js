@@ -6,7 +6,7 @@ import { Content } from "./Content";
 
 const settings = getSetting("azampaymomo_data", {});
 
-const label = decodeEntities(settings.title) || __("AzamPay", "azampay-woo");
+const label = decodeEntities(settings.title) || __("AzamPay", "azampay");
 const name = decodeEntities(settings.name) || "azampaymomo";
 const icon = decodeEntities(settings.icon) || "";
 
@@ -22,7 +22,7 @@ const Label = (props) => {
     {
       id: "azampay-logo",
       src: icon,
-      alt: __("Azampay logo", "azampay-woo"),
+      alt: __("Azampay logo", "azampay"),
     },
   ];
 

@@ -67,7 +67,7 @@ In the search field type **WooCommerce AzamPay** and click **Search Plugins**. O
 
 The manual installation method involves downloading our plugin and uploading it to your web server via your favorite FTP application. The WordPress codex contains [instructions on how to do this here](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
 
-* Unzip **woocommerce-azampay.zip** to the **/wp-content/plugins/** directory, or install from the **WordPress Plugins Directory**.
+* Unzip **azampay.zip** to the **/wp-content/plugins/** directory, or install from the **WordPress Plugins Directory**.
 * Activate the plugin through the **Plugins** menu in WordPress.
 * Configure plugin under **WooCommerce > Payments**, look for **AzamPay**.
 

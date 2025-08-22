@@ -26,14 +26,14 @@ export const Content = (props) => {
       if (!enabled) {
         return {
           type: emitResponse.responseTypes.ERROR,
-          message: __("AzamPay is disabled", "azampay-woo"),
+          message: __("AzamPay is disabled", "azampay"),
         };
       }
 
       if (!paymentPartner) {
         return {
           type: emitResponse.responseTypes.ERROR,
-          message: __("Please select a payment network", "azampay-woo"),
+          message: __("Please select a payment network", "azampay"),
         };
       }
 
@@ -43,7 +43,7 @@ export const Content = (props) => {
       if (!paymentNumber || !paymentNumber.match(phonePattern)) {
         return {
           type: emitResponse.responseTypes.ERROR,
-          message: __("Please enter a valid phone number that is to be billed.", "azampay-woo"),
+          message: __("Please enter a valid phone number that is to be billed.", "azampay"),
         };
       }
 
@@ -70,7 +70,7 @@ export const Content = (props) => {
   ]);
 
   if (!enabled) {
-    return <p>{__("Azampay is disabled", "azampay-woo")}.</p>;
+    return <p>{__("Azampay is disabled", "azampay")}.</p>;
   }
 
   return (

@@ -7,7 +7,7 @@ export const PaymentNumberField = (props) => {
   const { paymentNumber, setPaymentNumber } = props;
 
   if (paymentNumber === undefined || setPaymentNumber === undefined) {
-    throw new Error(__("paymentNumber and setPaymentNumber are required as props.", "azampay-woo"));
+    throw new Error(__("paymentNumber and setPaymentNumber are required as props.", "azampay"));
   }
 
   return (
@@ -15,7 +15,7 @@ export const PaymentNumberField = (props) => {
       id="payment_number_field"
       name="payment_number"
       className="form-row form-row-wide payment-number-field mt-0"
-      placeholder={__("Enter mobile phone number", "azampay-woo")}
+      placeholder={__("Enter mobile phone number", "azampay")}
       type="text"
       role="presentation"
       required
@@ -29,10 +29,10 @@ export const PaymentPartnersField = (props) => {
   const { paymentPartner, setPaymentPartner } = props;
 
   if (paymentPartner === undefined || setPaymentPartner === undefined) {
-    throw new Error(__("paymentPartner and setPaymentPartner are required as props.", "azampay-woo"));
+    throw new Error(__("paymentPartner and setPaymentPartner are required as props.", "azampay"));
   }
 
-  if (!settings?.partners?.data) return <p>{__("No payment partners available.", "azampay-woo")}</p>;
+  if (!settings?.partners?.data) return <p>{__("No payment partners available.", "azampay")}</p>;
 
   const {
     partners: { data, icons },
@@ -62,7 +62,7 @@ export const PaymentPartnersField = (props) => {
             onChange={onPartnerChange}
           />
           <div class="azampesa-right-block" style={{}}>
-            <p>{__("Pay with AzamPesa", "azampay-woo")}</p>
+            <p>{__("Pay with AzamPesa", "azampay")}</p>
             <img class="azampesa-img" src={azampesaSrc} alt={azampesaAlt} />
           </div>
         </label>
