@@ -66,7 +66,7 @@ final class AzamPay_Blocks_Support extends AbstractPaymentMethodType {
 			);
 		$script_url        = WC_AZAMPAY_PLUGIN_URL . $script_path;
 
-    wp_enqueue_style('styles', WC_AZAMPAY_PLUGIN_URL . '/assets/public/css/azampay-styles.css', [], false);
+	wp_enqueue_style('styles', WC_AZAMPAY_PLUGIN_URL . '/assets/public/css/azampay-styles.css', [], WC_AZAMPAY_VERSION);
 
 		wp_register_script(
 			'wc-azampay-blocks-integration',

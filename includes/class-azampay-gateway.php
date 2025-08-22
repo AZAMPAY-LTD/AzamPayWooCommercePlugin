@@ -227,12 +227,14 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Check if this gateway is enabled and available in the user's country.
    * 
    * @since 1.0.0
+   * @version 1.1.4
    */
   public function is_valid_for_use()
   {
     $supported_currencies = ['TZS'];
 
     if (!in_array(get_woocommerce_currency(), apply_filters('woocommerce_azampay_supported_currencies', $supported_currencies))) {
+      // translators: %s: URL to WooCommerce currency settings page.
       $this->msg = sprintf(__('AzamPay does not support your store currency. Kindly set it to Tanzanian Shillings (TZS) <a href="%s">here</a>', 'azampay'), esc_url(admin_url('admin.php?page=wc-settings&tab=general')));
       return false;
     }
@@ -244,14 +246,20 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Check if AzamPay merchant details are filled.
    * 
    * @since 1.0.0
-   * @version 1.1.0
+   * @version 1.1.4
    */
   public function admin_notices()
   {
     if ($this->is_available() && ( in_array(null, $this->client_credentials, true) || in_array('', $this->client_credentials, true) )) {
       $platform = $this->testmode ? 'test' : 'production';
       
-      echo wp_kses_post('<div class="error"><p>' . sprintf(__('Please enter your AzamPay merchant details for ' . $platform .' <strong><a href="%s">here</a></strong> to use the AzamPay WooCommerce plugin.', 'azampay'), esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section=' . esc_attr($this->id)))) . '</p></div>');
+      // translators: %1$s: platform name (test/production), %2$s: URL to AzamPay merchant settings page.
+            echo wp_kses_post('<div class="error"><p>' . sprintf(
+              // translators: %1$s: platform name (test/production), %2$s: URL to AzamPay merchant settings page.
+                            __('Please enter your AzamPay merchant details for %1$s <strong><a href="%2$s">here</a></strong> to use the AzamPay WooCommerce plugin.', 'azampay'),
+              esc_html($platform),
+              esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section=' . esc_attr($this->id)))
+            ) . '</p></div>');
     }
   }
 
@@ -269,101 +277,124 @@ class AzamPay_Gateway extends WC_Payment_Gateway
 
   /**
    * Admin Panel Options.
-   * 
+   *
    * @since 1.0.0
+   * @version 1.1.4
    */
   public function admin_options()
   {
-    if ('woocommerce_page_wc-settings' !== get_current_screen()->id) {
-      return;
-    }
-    ?>
-
-  <h2><?php esc_html_e($this->title . ' Momo', 'azampay'); ?></h2>
-
-
-    <?php
-    if ($this->is_valid_for_use()) {
-      // Adding custom fields
-    ?>
-
-      <h4>
-  <strong><?php echo esc_html(sprintf(esc_html__('Mandatory: To verify your transactions and update order status set your callback URL while registering your store to the URL below<span style="color: red"><pre><code>%1$s</code></pre></span>', 'azampay'), esc_url(get_site_url() . '/?wc-api=wc_azampay_webhook'))); ?></strong>
-      </h4>
-
-      <table class="form-table">
-
-        <?php
-        $partnersHTML = '';
-        foreach (self::$partners_dictionary as $partner => $_) {
-          $partnerName = strtolower($partner);
-
-          $disabled_flag = $partnerName === 'azampesa' ? 'disabled' : '';
-          $checked_flag = $this->allowed_partners[$partner] ? 'checked' : '';
-
-          $partnersHTML .= "<label for='woocommerce_{$this->id}_{$partnerName}_allowed'>
-                          <input type='checkbox' name='woocommerce_{$this->id}_{$partnerName}_allowed' id='woocommerce_{$this->id}_{$partnerName}_allowed' value='1' {$checked_flag} {$disabled_flag}>
-                          {$partner}
-                        </label>";
-        }
-        ?>
-
-        <tr valign="top" style="display:none;">
-          <th scope="row" class="titledesc">
-            <label for="woocommerce_<?php echo esc_attr($this->id); ?>_allowed_partners">
-              <?php esc_html_e('Allowed Payment Partners', 'azampay') ?>
-            </label>
-          </th>
-          <td id="woocommerce_<?php echo esc_attr($this->id); ?>_allowed_partners" class="forminp">
-            <fieldset style="display:flex; gap:15px;">
-              <legend class="screen-reader-text">
-                <span>
-                  <?php esc_html_e('Allowed Payment Partners', 'azampay') ?>
-                </span>
-              </legend>
-              <?php
-              echo wp_kses($partnersHTML, [
-                'label' => [
-                  'for' => []
-                ],
-                'input' => [
-                  'type' => [],
-                  'name' => [],
-                  'id' => [],
-                  'value' => [],
-                  'checked' => [],
-                  'disabled' => [],
-                ],
-              ])
-              ?>
-              <br>
-            </fieldset>
-          </td>
-        </tr>
-
-      <?php
-      $this->generate_settings_html();
-      echo wp_kses('</table>', ['table' => []]);
-    } else {
+      if ('woocommerce_page_wc-settings' !== get_current_screen()->id) {
+          return;
+      }
       ?>
 
-        <div class="inline error">
-          <p>
-            <strong>
-              <?php esc_html_e('AzamPay Payment Gateway Disabled', 'azampay'); ?>
-            </strong>:
-            <?php
-            echo wp_kses($this->msg, [
-              'a' => [
-                'href' => []
-              ]
-            ]);
-            ?>
-          </p>
-        </div>
+      <!-- Title -->
+      <h2>
+          <?php
+          // translators: %s is the dynamic title from $this->title.
+          printf(esc_html__('%s Momo', 'azampay'), esc_html($this->title));
+          ?>
+      </h2>
 
       <?php
-    }
+      if ($this->is_valid_for_use()) {
+          // Adding custom fields
+          ?>
+
+          <!-- Callback URL Notice -->
+          <h4>
+              <strong>
+                  <?php
+                  // translators: %1$s is the callback URL.
+                  echo esc_html(
+                      sprintf(
+                          // translators: %1$s is the callback URL.
+                                                    esc_html__(
+                                                        'Mandatory: To verify your transactions and update order status set your callback URL while registering your store to the URL below<span style="color: red"><pre><code>%1$s</code></pre></span>',
+                                                        'azampay'
+                                                    ),
+                          esc_url(get_site_url() . '/?wc-api=wc_azampay_webhook')
+                      )
+                  );
+                  ?>
+              </strong>
+          </h4>
+
+          <!-- Settings Form Table -->
+          <table class="form-table">
+              <?php
+              $partnersHTML = '';
+              foreach (self::$partners_dictionary as $partner => $_) {
+                  $partnerName   = strtolower($partner);
+                  $disabled_flag = $partnerName === 'azampesa' ? 'disabled' : '';
+                  $checked_flag  = !empty($this->allowed_partners[$partner]) ? 'checked' : '';
+
+                  $partnersHTML .= "<label for='woocommerce_{$this->id}_{$partnerName}_allowed'>
+                      <input type='checkbox' name='woocommerce_{$this->id}_{$partnerName}_allowed' id='woocommerce_{$this->id}_{$partnerName}_allowed' value='1' {$checked_flag} {$disabled_flag}>
+                      {$partner}
+                  </label>";
+              }
+              ?>
+
+              <!-- Hidden Allowed Partners Field -->
+              <tr valign="top" style="display:none;">
+                  <th scope="row" class="titledesc">
+                      <label for="woocommerce_<?php echo esc_attr($this->id); ?>_allowed_partners">
+                          <?php esc_html_e('Allowed Payment Partners', 'azampay'); ?>
+                      </label>
+                  </th>
+                  <td id="woocommerce_<?php echo esc_attr($this->id); ?>_allowed_partners" class="forminp">
+                      <fieldset style="display:flex; gap:15px;">
+                          <legend class="screen-reader-text">
+                              <span><?php esc_html_e('Allowed Payment Partners', 'azampay'); ?></span>
+                          </legend>
+                          <?php
+                          echo wp_kses(
+                              $partnersHTML,
+                              [
+                                  'label' => ['for' => []],
+                                  'input' => [
+                                      'type'    => [],
+                                      'name'    => [],
+                                      'id'      => [],
+                                      'value'   => [],
+                                      'checked' => [],
+                                      'disabled'=> [],
+                                  ],
+                              ]
+                          );
+                          ?>
+                          <br>
+                      </fieldset>
+                  </td>
+              </tr>
+
+          <?php
+          // Output other settings fields
+          $this->generate_settings_html();
+          echo wp_kses('</table>', ['table' => []]);
+      } else {
+          ?>
+
+          <!-- Disabled Gateway Notice -->
+          <div class="inline error">
+              <p>
+                  <strong>
+                      <?php esc_html_e('AzamPay Payment Gateway Disabled', 'azampay'); ?>
+                  </strong>:
+                  <?php
+                  echo wp_kses(
+                      $this->msg,
+                      [
+                          'a' => ['href' => []],
+                      ]
+                  );
+                  ?>
+              </p>
+          </div>
+
+          <?php
+      }
   }
 
   /**
@@ -706,7 +737,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
     }
 
     // include plugin styling for checkout fields
-    wp_enqueue_style('styles', WC_AZAMPAY_PLUGIN_URL . '/assets/public/css/azampay-styles.css', [], false);
+    wp_enqueue_style('styles', WC_AZAMPAY_PLUGIN_URL . '/assets/public/css/azampay-styles.css', [], WC_AZAMPAY_VERSION);
 
     echo wp_kses_post($this->get_description());
 
@@ -1096,7 +1127,8 @@ class AzamPay_Gateway extends WC_Payment_Gateway
     foreach ($required_fields as $field) {
       if (!property_exists($data, $field)) {
         http_response_code(400);
-        esc_html_e($field . ' must be specified in payload.');
+        // translators: %s: The missing field name in the webhook payload.
+        printf( esc_html__( '%s must be specified in payload.', 'azampay' ), esc_html( $field ) );
         exit;
       }
     }
@@ -1157,14 +1189,16 @@ class AzamPay_Gateway extends WC_Payment_Gateway
 
         $order->add_meta_data('transaction_id', $azampay_ref, true);
 
-        $notice = sprintf(__('Thank you for shopping with us.%1$sYour payment transaction was successful, but the amount paid is not the same as the total order amount.%2$sYour order is currently on hold.%3$sKindly contact us for more information regarding your order and payment status.', 'azampay'), '<br />', '<br />', '<br />');
+        // translators: %1$s, %2$s, %3$s are <br /> line breaks.
+                $notice = sprintf(__('Thank you for shopping with us.%1$sYour payment transaction was successful, but the amount paid is not the same as the total order amount.%2$sYour order is currently on hold.%3$sKindly contact us for more information regarding your order and payment status.', 'azampay'), '<br />', '<br />', '<br />');
         $notice_type = 'notice';
 
         // Add Customer Order Note
         $order->add_order_note($notice, 1);
 
         // Add Admin Order Note
-        $admin_order_note = sprintf(__('<strong>Look into this order</strong>%1$sThis order is currently on hold.%2$sReason: Amount paid is less than the total order amount.%3$sAmount Paid was <strong>%4$s (%5$s)</strong> while the total order amount is <strong>%6$s (%7$s)</strong>%8$s<strong>AzamPay Transaction Reference:</strong> %9$s', 'azampay'), '<br />', '<br />', '<br />', $currency_symbol, $amount_paid, $currency_symbol, $order_total, '<br />', $azampay_ref);
+        // translators: %1$s, %2$s, %3$s, %8$s are <br /> line breaks; %4$s and %6$s are currency symbols; %5$s and %7$s are amounts; %9$s is AzamPay transaction reference.
+                $admin_order_note = sprintf(__('<strong>Look into this order</strong>%1$sThis order is currently on hold.%2$sReason: Amount paid is less than the total order amount.%3$sAmount Paid was <strong>%4$s (%5$s)</strong> while the total order amount is <strong>%6$s (%7$s)</strong>%8$s<strong>AzamPay Transaction Reference:</strong> %9$s', 'azampay'), '<br />', '<br />', '<br />', $currency_symbol, $amount_paid, $currency_symbol, $order_total, '<br />', $azampay_ref);
 
         $order->add_order_note($admin_order_note);
 
@@ -1174,7 +1208,8 @@ class AzamPay_Gateway extends WC_Payment_Gateway
       } else {
         $order->payment_complete($azampay_ref);
 
-        $order->add_order_note(sprintf(__('Payment via AzamPay successful (Transaction Reference: %s)', 'azampay'), $azampay_ref));
+        // translators: %s: AzamPay transaction reference.
+                $order->add_order_note(sprintf(__('Payment via AzamPay successful (Transaction Reference: %s)', 'azampay'), $azampay_ref));
 
         if ($this->autocomplete_order) {
           $order->update_status('completed');

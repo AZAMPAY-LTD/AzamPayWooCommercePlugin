@@ -2,7 +2,7 @@
 Contributors: azampay
 Tags: woocommerce, payment request, azampay, azampesa, mobile money, tigopesa, airtel money, halopesa, tanzania, online payments, mpesa, malipo
 Requires at least: 6.0
-Tested up to: 6.8.2
+Tested up to: 6.8
 Requires PHP: 8.0
 WC requires at least: 10.1.0
 WC tested up to: 10.1.0
