@@ -1,6 +1,6 @@
 === AzamPay Payment Gateway for WooCommerce ===
 Contributors: azampay
-Tags: woocommerce, payment request, azampay, azampesa, mobile money, tigopesa, airtel money, halopesa, tanzania, online payments, mpesa, malipo
+Tags: payment request, azampay, azampesa, mobile money, tigopesa, airtel money, halopesa, tanzania, online payments, mpesa, malipo
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.0
@@ -13,7 +13,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 Acquire consumer payments from all electronic money wallets in Tanzania.
 
 == Description ==
-**AzamPay Momo WooCommerce** is a WordPress plugin that allows merchants to receive mobile money payments through their woo-commerce checkout pages. This allows merchants to receive payments from their **AzamPesa**, **TigoPesa**, **AirtelMoney**, and **HaloPesa** customers.
+**AzamPay Momo for WooCommerce** is a WordPress plugin that allows merchants to receive mobile money payments through their woo-commerce checkout pages. This allows merchants to receive payments from their **AzamPesa**, **TigoPesa**, **AirtelMoney**, and **HaloPesa** customers.
 This plugin works in both sandbox and production environments.
 
 = Take AzamPay payments easily and directly on your store =
@@ -22,7 +22,7 @@ The plugin extends WooCommerce allowing you to take payments directly on your st
 
 **AzamPay** is available for store owners and merchants in Tanzania.
 
-= Use Of Azampay Woocommerce Plugin as a Third-Party Service =
+= Use Of Azampay for Woocommerce Plugin as a Third-Party Service =
 
 This plugin is developed to enable merchants and businesses to receive payment through the AzamPay payment gateway provided by **AzamPay Tanzania Limited**.
 Upon checkout, a push request is sent to the customer's handset where they can then confirm payment.

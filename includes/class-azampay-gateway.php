@@ -256,7 +256,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
       // translators: %1$s: platform name (test/production), %2$s: URL to AzamPay merchant settings page.
             echo wp_kses_post('<div class="error"><p>' . sprintf(
               // translators: %1$s: platform name (test/production), %2$s: URL to AzamPay merchant settings page.
-                            __('Please enter your AzamPay merchant details for %1$s <strong><a href="%2$s">here</a></strong> to use the AzamPay WooCommerce plugin.', 'azampay'),
+                            __('Please enter your AzamPay merchant details for %1$s <strong><a href="%2$s">here</a></strong> to use the AzamPay for WooCommerce plugin.', 'azampay'),
               esc_html($platform),
               esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section=' . esc_attr($this->id)))
             ) . '</p></div>');
