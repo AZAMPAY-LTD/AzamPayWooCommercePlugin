@@ -35,18 +35,26 @@ define( 'WC_AZAMPAY_PLUGIN_PATH', untrailingslashit( plugin_dir_path( __FILE__ )
  * Display a notice if WooCommerce is not installed
  * 
  * @since 1.0.0
+ * @version 1.1.4
  */
 function woo_azampay_missing_wc_notice() {
-	echo wp_kses_post('<div class="error"><p><strong>' . sprintf(__('AzamPay requires WooCommerce to be installed and active. Click %s to install WooCommerce.', 'azampay'), '<a href="' . esc_url(admin_url('plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=772&height=539')) . '" class="thickbox open-plugin-details-modal">here</a>') . '</strong></p></div>');
+  // translators: %s: Link to install WooCommerce.
+  echo wp_kses_post('<div class="error"><p><strong>' . sprintf(
+    /* translators: %s: Link to install WooCommerce. */
+    __('AzamPay requires WooCommerce to be installed and active. Click %s to install WooCommerce.', 'azampay'),
+    '<a href="' . esc_url(admin_url('plugin-install.php?tab=plugin-information&plugin=woocommerce&TB_iframe=true&width=772&height=539')) . '" class="thickbox open-plugin-details-modal">here</a>'
+  ) . '</strong></p></div>');
 }
 
 /**
  * WooCommerce not supported fallback notice.
  *
  * @since 1.1.0
+ * @version 1.1.4
  */
 function woo_azampay_wc_not_supported() {
-	echo wp_kses_post('<div class="error"><p><strong>' . sprintf( esc_html__( 'AzamPay requires WooCommerce %1$s or greater to be installed and active. WooCommerce %2$s is no longer supported.', 'azampay' ), esc_html( WC_AZAMPAY_MIN_WC_VER ), esc_html( WC_VERSION ) ) . '</strong></p></div>');
+  // translators: %1$s: Minimum required WooCommerce version, %2$s: Current WooCommerce version.
+  echo wp_kses_post('<div class="error"><p><strong>' . sprintf( esc_html__( 'AzamPay requires WooCommerce %1$s or greater to be installed and active. WooCommerce %2$s is no longer supported.', 'azampay' ), esc_html( WC_AZAMPAY_MIN_WC_VER ), esc_html( WC_VERSION ) ) . '</strong></p></div>');
 }
 
 /**
@@ -67,6 +75,7 @@ function woo_azampay_testmode_notice() {
   $enabled = isset($azampay_settings['enabled']) ? $azampay_settings['enabled'] : '';
   
   if ('yes' === $enabled && 'yes' === $test_mode) {
+    // translators: %s: Link to AzamPay settings page.
     echo wp_kses_post('<div class="error"><p>' . sprintf(__('AzamPay test mode is still enabled, Click <strong><a href="%s">here</a></strong> to disable it when you want to start accepting live payment on your site.', 'azampay'), esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section='.AzamPay_Gateway::ID))) . '</p></div>');
   }
 }
@@ -163,7 +172,7 @@ function woocommerce_azampay() {
        * */
       public function plugin_action_links( $links ) {
         $settings_link = array('<a href="' .
-          esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section=' . AzamPay_Gateway::ID)) . '" title="' . esc_attr(__('View AzamPay Settings', 'azampay')) . '">' . esc_html(__('Settings')) . '</a>');
+          esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section=' . AzamPay_Gateway::ID)) . '" title="' . esc_attr(__('View AzamPay Settings', 'azampay')) . '">' . esc_html(__('Settings', 'azampay')) . '</a>');
 
         return array_merge( $settings_link, $links );
       }
