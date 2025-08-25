@@ -1,3 +1,21 @@
+== Source Code and Build Tools ==
+
+This plugin uses build tools (npm/webpack) to generate compressed JavaScript and CSS files for production use.
+
+All human-readable source code for compressed files (such as assets/js/ui/wc-azampay-blocks.js) is included in the plugin directory under:
+
+resources/js/blocks/
+
+You can also find the maintained source at:
+https://github.com/AZAMPAY-LTD/AzamPayWooCommercePlugin
+
+To build the production files from source:
+1. Install Node.js and npm.
+2. Run `npm install` in the plugin directory.
+3. Run `npm run build` to generate the production assets.
+
+Please review, study, and adapt the code as needed. Contributions and forks are welcome!
+
 === AzamPay Payment Gateway for WooCommerce ===
 Contributors: azampay
 Tags: payment request, azampay, azampesa, mobile money, tigopesa, airtel money, halopesa, tanzania, online payments, mpesa, malipo
