@@ -1107,6 +1107,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
       exit;
     }
 
+
     $data = json_decode($json);
 
     // make sure all required properties exist on payload
@@ -1119,11 +1120,17 @@ class AzamPay_Gateway extends WC_Payment_Gateway
       }
     }
 
-    $order_id = $data->utilityref ? $data->utilityref : null;
+    // Sanitize and validate all incoming data
+    $order_id = isset($data->utilityref) ? sanitize_text_field($data->utilityref) : null;
+    $azampay_ref = isset($data->reference) ? sanitize_text_field($data->reference) : null;
+    $transaction_status = isset($data->transactionstatus) ? sanitize_text_field($data->transactionstatus) : null;
+    $amount_paid = isset($data->amount) ? floatval($data->amount) : null;
+    $message = isset($data->message) ? sanitize_text_field($data->message) : null;
 
-    if (is_null($order_id)) {
+    // Validate order_id
+    if (is_null($order_id) || !is_numeric($order_id)) {
       http_response_code(400);
-      esc_html_e('Order id not specified.', 'azampay');
+      esc_html_e('Order id not specified or invalid.', 'azampay');
       exit;
     }
 
@@ -1142,27 +1149,19 @@ class AzamPay_Gateway extends WC_Payment_Gateway
       exit;
     }
 
-    $amount_paid = $data->amount ? $data->amount : null;
-
     $order_total = $order->get_total();
 
-    if (is_null($amount_paid)) {
+    if (is_null($amount_paid) || $amount_paid <= 0) {
       http_response_code(400);
-      esc_html_e('Amount not specified.', 'azampay');
+      esc_html_e('Amount not specified or invalid.', 'azampay');
       exit;
     }
 
-    $transaction_status = $data->transactionstatus ? $data->transactionstatus : null;
-
-    if (is_null($transaction_status)) {
+    if (is_null($transaction_status) || !in_array($transaction_status, ['success', 'failed'])) {
       http_response_code(400);
-      esc_html_e('Transaction status not specified.', 'azampay');
+      esc_html_e('Transaction status not specified or invalid.', 'azampay');
       exit;
     }
-
-    $message = $data->message ? $data->message : null;
-
-    $azampay_ref = $data->reference ? $data->reference : null;
 
     $order_currency = method_exists($order, 'get_currency') ? $order->get_currency() : $order->get_order_currency();
 
