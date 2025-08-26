@@ -6,7 +6,7 @@
  * Description: Acquire consumer payments from all electronic money wallets in Tanzania.
  * Author: AzamPay
  * Author URI: https://azampay.co.tz/
- * Version: 1.1.4
+ * Version: 1.1.5
  * Requires at least: 6.0
  * Tested up to: 6.8.2
  * Requires PHP: 8.0
@@ -22,7 +22,7 @@ defined('ABSPATH') || exit;
 /**
  * Required minimums and constants
  */
-define( 'WC_AZAMPAY_VERSION', '1.1.4' ); // WRCS: DEFINED_VERSION.
+define( 'WC_AZAMPAY_VERSION', '1.1.5' ); // WRCS: DEFINED_VERSION.
 define( 'WC_AZAMPAY_MIN_PHP_VER', '8.0' );
 define( 'WC_AZAMPAY_MIN_WC_VER', '10.1.0' );
 define( 'WC_AZAMPAY_FUTURE_MIN_WC_VER', '10.1.0' );
@@ -35,7 +35,7 @@ define( 'WC_AZAMPAY_PLUGIN_PATH', untrailingslashit( plugin_dir_path( __FILE__ )
  * Display a notice if WooCommerce is not installed
  * 
  * @since 1.0.0
- * @version 1.1.4
+ * @version 1.1.5
  */
 function woo_azampay_missing_wc_notice() {
   // translators: %s: Link to install WooCommerce.
@@ -50,7 +50,7 @@ function woo_azampay_missing_wc_notice() {
  * WooCommerce not supported fallback notice.
  *
  * @since 1.1.0
- * @version 1.1.4
+ * @version 1.1.5
  */
 function woo_azampay_wc_not_supported() {
   // translators: %1$s: Minimum required WooCommerce version, %2$s: Current WooCommerce version.
@@ -61,7 +61,7 @@ function woo_azampay_wc_not_supported() {
  * Display the test mode notice.
  * 
  * @since 1.0.0
- * @version 1.1.4
+ * @version 1.1.5
  * 
  * */
 function woo_azampay_testmode_notice() {
@@ -85,7 +85,7 @@ function woo_azampay_testmode_notice() {
  * AzamPay WooCommerce gateway.
  * 
  * @since 1.1.0
- * @version 1.1.4
+ * @version 1.1.5
  * 
  */
 function woocommerce_azampay() {
@@ -165,7 +165,7 @@ function woocommerce_azampay() {
        * Add Settings link to the plugin entry in the plugins menu.
        *
        * @since 1.0.0
-       * @version 1.1.4
+       * @version 1.1.5
        * @param array $links Plugin action links.
        *
        * @return array
@@ -254,7 +254,7 @@ function woocommerce_azampay() {
 			 * Returns the main AzamPay payment gateway class instance.
 			 *
        * @since 1.0.0
-       * @version 1.1.4
+       * @version 1.1.5
 			 * @return AzamPay_Gateway
 			 */
 			public function get_main_azampay_gateway() {

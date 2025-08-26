@@ -227,7 +227,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Check if this gateway is enabled and available in the user's country.
    * 
    * @since 1.0.0
-   * @version 1.1.4
+   * @version 1.1.5
    */
   public function is_valid_for_use()
   {
@@ -246,7 +246,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Check if AzamPay merchant details are filled.
    * 
    * @since 1.0.0
-   * @version 1.1.4
+   * @version 1.1.5
    */
   public function admin_notices()
   {
@@ -279,7 +279,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Admin Panel Options.
    *
    * @since 1.0.0
-   * @version 1.1.4
+   * @version 1.1.5
    */
   public function admin_options()
   {
@@ -663,7 +663,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Generate description HTML and add test description if test mode is enabled.
    * 
    * @since 1.1.0
-   * 
+   * @version 1.1.5
    * @return string description html.
    */
   public function get_description()
@@ -672,7 +672,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
 
     if ($description) {
       if ($this->testmode) {
-        $description .= '<p class="form-row form-row-wide" style="margin-top:5px">' . esc_html('TEST MODE ENABLED. In Sandbox, you can use the AzamPesa numbers listed below to proceed with tests for the different scenarios.', 'azampay') . '</p>';
+        $description .= '<p class="form-row form-row-wide" style="margin-top:5px">' . esc_html__('TEST MODE ENABLED. In Sandbox, you can use the AzamPesa numbers listed below to proceed with tests for the different scenarios.', 'azampay') . '</p>';
         $description = trim($description);
       }
     }
@@ -713,7 +713,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Display the payment fields.
    * 
    * @since 1.0.0
-   * @version 1.1.2
+   * @version 1.1.5
    */
   public function payment_fields()
   {
@@ -1082,7 +1082,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Process callback from api and update order status
    * 
    * @since 1.0.0
-   * @version 1.1.4
+   * @version 1.1.5
    */
   public function process_webhooks()
   {
@@ -1221,7 +1221,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Output for the order received page.
    * 
    * @since 1.0.0
-   * @version 1.1.4
+   * @version 1.1.5
    */
   public function thankyou_page()
   {

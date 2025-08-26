@@ -227,7 +227,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Check if this gateway is enabled and available in the user's country.
    * 
    * @since 1.0.0
-   * @version 1.1.4
+   * @version 1.1.5
    */
   public function is_valid_for_use()
   {
@@ -246,7 +246,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Check if AzamPay merchant details are filled.
    * 
    * @since 1.0.0
-   * @version 1.1.4
+   * @version 1.1.5
    */
   public function admin_notices()
   {
@@ -279,7 +279,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Admin Panel Options.
    *
    * @since 1.0.0
-   * @version 1.1.4
+   * @version 1.1.5
    */
   public function admin_options()
   {
@@ -714,7 +714,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Display the payment fields.
    * 
    * @since 1.0.0
-   * @version 1.1.2
+   * @version 1.1.5
    */
   public function payment_fields()
   {
@@ -1083,7 +1083,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Process callback from api and update order status
    * 
    * @since 1.0.0
-   * @version 1.1.4
+   * @version 1.1.5
    */
   public function process_webhooks()
   {
@@ -1222,7 +1222,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Output for the order received page.
    * 
    * @since 1.0.0
-   * @version 1.1.4
+   * @version 1.1.5
    */
   public function thankyou_page()
   {

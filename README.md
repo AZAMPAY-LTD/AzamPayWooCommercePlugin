@@ -6,7 +6,7 @@ Tested up to: 6.8
 Requires PHP: 8.0
 WC requires at least: 10.1.0
 WC tested up to: 10.1.0
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 License: GPL-3.0+
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -98,6 +98,9 @@ No '+' sign before country code
 
 == Changelog ==
 
+= 1.1.5 =
+*Fiex issues and improve quailty.
+
 = 1.1.4 =
 * Added support for WooCommerce 10.1.0 and PHP 8.0.
 
@@ -134,6 +137,9 @@ No '+' sign before country code
 * **AzamPay Checkout API** is fully supported.
 
 == Upgrade Notice ==
+
+= 1.1.5 =
+*Fiex issues and improve quailty.
 
 = 1.1.4 =
 * Added support for WooCommerce 10.1.0 and PHP 8.0.
