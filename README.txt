@@ -18,7 +18,7 @@ Please review, study, and adapt the code as needed. Contributions and forks are 
 
 === AzamPay Payment Gateway for WooCommerce ===
 Contributors: azampay
-Tags: payment request, azampay, azampesa, mobile money, tigopesa, airtel money, halopesa, tanzania, online payments, mpesa, malipo
+Tags: payment request, azampay, azampesa, tigopesa, airtel money
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.0

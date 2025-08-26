@@ -254,12 +254,12 @@ class AzamPay_Gateway extends WC_Payment_Gateway
       $platform = $this->testmode ? 'test' : 'production';
       
       // translators: %1$s: platform name (test/production), %2$s: URL to AzamPay merchant settings page.
-      $notice_text = __('Please enter your AzamPay merchant details for %1$s <strong><a href="%2$s">here</a></strong> to use the AzamPay for WooCommerce plugin.', 'azampay');
-      echo wp_kses_post('<div class="error"><p>' . sprintf(
-        $notice_text,
-        esc_html($platform),
-        esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section=' . $this->id))
-      ) . '</p></div>');
+            echo wp_kses_post('<div class="error"><p>' . sprintf(
+              // translators: %1$s: platform name (test/production), %2$s: URL to AzamPay merchant settings page.
+                            __('Please enter your AzamPay merchant details for %1$s <strong><a href="%2$s">here</a></strong> to use the AzamPay for WooCommerce plugin.', 'azampay'),
+              esc_html($platform),
+              esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section=' . esc_attr($this->id)))
+            ) . '</p></div>');
     }
   }
 
@@ -292,8 +292,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
     <h2>
       <?php
       // translators: %s is the dynamic title from $this->title.
-  $title_text = __('%s Momo', 'azampay');
-  printf(esc_html($title_text), esc_html($this->title));
+      printf(esc_html__('%s Momo', 'azampay'), esc_html($this->title));
       ?>
     </h2>
 
@@ -1105,7 +1104,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
 
     if (empty($json)) {
       http_response_code(400);
-      esc_html_e('Payload empty.', 'azampay');
+      esc_html_e(__('Payload empty.', 'azampay'));
       exit;
     }
 

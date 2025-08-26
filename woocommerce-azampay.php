@@ -2,7 +2,7 @@
 
 /**
 * Plugin Name: Payment Gateway for AzamPay on WooCommerce
- * Plugin URI: https://azampay.co.tz/
+* Plugin URI: https://github.com/AZAMPAY-LTD/AzamPayWooCommercePlugin
  * Description: Acquire consumer payments from all electronic money wallets in Tanzania.
  * Author: AzamPay
  * Author URI: https://azampay.co.tz/
@@ -152,7 +152,7 @@ function woocommerce_azampay() {
 			 * @since 1.1.0
 			 */
       public function init() {
-        require_once dirname(__FILE__) . '/includes/class-azampay-gateway.php';
+        require_once dirname(__FILE__) . '/includes/class-woo-azampay-gateway.php';
       
         add_filter( 'woocommerce_payment_gateways', [ $this, 'add_gateway' ] );
         add_filter( 'woocommerce_currencies', [ $this, 'add_currencies_to_store' ] );
@@ -304,7 +304,7 @@ add_action( 'plugins_loaded', 'woo_azampay_init' );
 
 add_action( 'woocommerce_blocks_loaded', function() {
   if ( class_exists( 'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
-    require_once dirname( __FILE__ ) . '/includes/class-azampay-blocks-support.php';
+    require_once dirname( __FILE__ ) . '/includes/class-woo-azampay-blocks-support.php';
     add_action(
       'woocommerce_blocks_payment_method_type_registration',
       function( Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry ) {
