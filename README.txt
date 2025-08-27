@@ -1,24 +1,6 @@
-== Source Code and Build Tools ==
-
-This plugin uses build tools (npm/webpack) to generate compressed JavaScript and CSS files for production use.
-
-All human-readable source code for compressed files (such as assets/js/ui/wc-azampay-blocks.js) is included in the plugin directory under:
-
-resources/js/blocks/
-
-You can also find the maintained source at:
-https://github.com/AZAMPAY-LTD/AzamPayWooCommercePlugin
-
-To build the production files from source:
-1. Install Node.js and npm.
-2. Run `npm install` in the plugin directory.
-3. Run `npm run build` to generate the production assets.
-
-Please review, study, and adapt the code as needed. Contributions and forks are welcome!
-
 === AzamPay Payment Gateway for WooCommerce ===
 Contributors: azampay
-Tags: payment request, azampay, azampesa, tigopesa, airtel money
+Tags: payment request, azampay, azampesa, tigopesa, airtel
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 8.0
@@ -83,7 +65,7 @@ In the search field type **AzamPay for WooCommerce** and click **Search Plugins*
 
 **MANUAL INSTALLATION**
 
-The manual installation method involves downloading our plugin and uploading it to your web server via your favorite FTP application. The WordPress codex contains [instructions on how to do this here](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
+The manual installation method involves downloading our plugin and uploading it to your web server via your favorite FTP application. The WordPress codex contains [instructions on how to do this here](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
 
 * Unzip **azampay.zip** to the **/wp-content/plugins/** directory, or install from the **WordPress Plugins Directory**.
 * Activate the plugin through the **Plugins** menu in WordPress.
@@ -108,6 +90,24 @@ No '+' sign before country code
 1. **https://authenticator.azampay.co.tz** and **https://authenticator-sandbox.azampay.co.tz** are authentication URLs to get the access token for the Checkout API of AzamPay Payment Gateway in the sandbox and production environment respectively.
 2. **https://sandbox.azampay.co.tz** and **https://checkout.azampay.co.tz** are used in the sandbox and production environment respectively to process checkout payment requests and related APIs.
 3. **https://developers.azampay.co.tz/sandbox/registerapp** is used to register new users to get new client IDs, client secrets, and other required access to use the plugin.
+
+== Source Code and Build Tools ==
+
+This plugin uses build tools (npm/webpack) to generate compressed JavaScript and CSS files for production use.
+
+All human-readable source code for compressed files (such as assets/js/ui/wc-azampay-blocks.js) is included in the plugin directory under:
+
+resources/js/blocks/
+
+You can also find the maintained source at:
+https://github.com/AZAMPAY-LTD/AzamPayWooCommercePlugin
+
+To build the production files from source:
+1. Install Node.js and npm.
+2. Run `npm install` in the plugin directory.
+3. Run `npm run build` to generate the production assets.
+
+Please review, study, and adapt the code as needed. Contributions and forks are welcome!
 
 == Screenshots ==
 
