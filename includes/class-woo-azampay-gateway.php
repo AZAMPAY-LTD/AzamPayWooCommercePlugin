@@ -303,7 +303,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
 
           <!-- Callback URL Notice -->
    <h4>
-  <strong><?php printf(esc_html__('Mandatory: To verify your transactions and update order status set your callback URL while registering your store to the URL below<span style="color: red"><pre><code>%1$s</code></pre></span>', 'azampay'), esc_url(get_site_url() . '/?wc-api=wc_azampay_webhook')); ?></strong>
+  <strong><?php /* translators: %s: The webhook callback URL. */ printf(esc_html__('Mandatory: To verify your transactions and update order status set your callback URL while registering your store to the URL below<span style="color: red"><pre><code>%s</code></pre></span>', 'azampay'), esc_url(get_site_url() . '/?wc-api=wc_azampay_webhook')); ?></strong>
       </h4>
 
           <!-- Settings Form Table -->
@@ -393,12 +393,17 @@ class AzamPay_Gateway extends WC_Payment_Gateway
   {
     parent::process_admin_options();
 
+    // Check if this is a settings update with proper nonce
+    $is_settings_save = isset($_POST['woocommerce_' . self::ID . '_enabled']) && isset($_POST['save']) && 
+                       current_user_can('manage_woocommerce') && 
+                       (isset($_POST['woocommerce-settings-nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['woocommerce-settings-nonce'])), 'woocommerce-settings'));
+    
     $this->allowed_partners = [
       'Azampesa' => true,
-      'HaloPesa' => isset($_POST['woocommerce_' . self::ID . '_halopesa_allowed']),
-      'Tigopesa' => isset($_POST['woocommerce_' . self::ID . '_tigopesa_allowed']),
-      'Airtel' => isset($_POST['woocommerce_' . self::ID . '_airtel_allowed']),
-      'vodacom' => isset($_POST['woocommerce_' . self::ID . '_vodacom_allowed']),
+      'HaloPesa' => $is_settings_save && isset($_POST['woocommerce_' . self::ID . '_halopesa_allowed']),
+      'Tigopesa' => $is_settings_save && isset($_POST['woocommerce_' . self::ID . '_tigopesa_allowed']),
+      'Airtel' => $is_settings_save && isset($_POST['woocommerce_' . self::ID . '_airtel_allowed']),
+      'vodacom' => $is_settings_save && isset($_POST['woocommerce_' . self::ID . '_vodacom_allowed']),
     ];
 
     $this->update_option('allowed_partners', $this->allowed_partners);
@@ -740,7 +745,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
     // Failed to generate token
     if (!$this->token_result['success']) {
       // error messages for admins and non admins
-      $admin_message = '<a href="' . esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section=' . esc_attr($this->id))) . '" target="_blank">' . esc_html('Click here to configure the plugin', 'azampay') . '</a>.';
+      $admin_message = '<a href="' . esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section=' . esc_attr($this->id))) . '" target="_blank">' . esc_html__('Click here to configure the plugin', 'azampay') . '</a>.';
       $non_admin_message = __('Contact store owner to have it fixed.', 'azampay');
 
       // Incorrect configuration
@@ -864,9 +869,19 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    */
   public function validate_fields()
   {
-    $payment_number = sanitize_text_field($_POST['payment_number']);
-
-    $payment_network = sanitize_text_field($_POST['payment_network']);
+    // Verify checkout nonce for security
+    if (!isset($_POST['woocommerce-process-checkout-nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['woocommerce-process-checkout-nonce'])), 'woocommerce-process_checkout')) {
+      wc_add_notice(__('Security verification failed. Please try again.', 'azampay'), 'error');
+      return false;
+    }
+    
+    if (!isset($_POST['payment_number'], $_POST['payment_network'])) {
+      wc_add_notice(__('Payment details are missing.', 'azampay'), 'error');
+      return false;
+    }
+    
+    $payment_number = sanitize_text_field(wp_unslash($_POST['payment_number']));
+    $payment_network = sanitize_text_field(wp_unslash($_POST['payment_network']));
 
     if (!isset($payment_network) || empty($payment_network)) {
       wc_add_notice('Please select a payment network.', 'error');
@@ -892,22 +907,27 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    */
   public function azampay_checkout_update_order_meta($order_id)
   {
+    // Verify checkout nonce for security
+    if (!isset($_POST['woocommerce-process-checkout-nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['woocommerce-process-checkout-nonce'])), 'woocommerce-process_checkout')) {
+      return;
+    }
+    
     $order = wc_get_order( $order_id );
 
     if ( self::ID !== $order->get_payment_method() ) {
       return;
     }
 
-    $payment_number = sanitize_text_field($_POST['payment_number']);
+    $payment_number = isset($_POST['payment_number']) ? sanitize_text_field(wp_unslash($_POST['payment_number'])) : '';
 
-    if (isset($payment_number) && !empty($payment_number)) {
+    if (!empty($payment_number)) {
       $order->update_meta_data('payment_number', $payment_number);
       $order->save();
     }
 
-    $payment_network = sanitize_text_field($_POST['payment_network']);
+    $payment_network = isset($_POST['payment_network']) ? sanitize_text_field(wp_unslash($_POST['payment_network'])) : '';
 
-    if (isset($payment_network) && !empty($payment_network)) {
+    if (!empty($payment_network)) {
       $order->update_meta_data('payment_network', $payment_network);
       $order->save();
     }
@@ -1017,8 +1037,17 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    */
   private function azampay_payment_processing($order)
   {
-    $payment_network = sanitize_text_field($_POST['payment_network']);
-    $payment_number = sanitize_text_field($_POST['payment_number']);
+    // Verify checkout nonce for security
+    if (!isset($_POST['woocommerce-process-checkout-nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['woocommerce-process-checkout-nonce'])), 'woocommerce-process_checkout')) {
+      return __('Security verification failed.', 'azampay');
+    }
+    
+    if (!isset($_POST['payment_network'], $_POST['payment_number'])) {
+      return __('Payment details are missing.', 'azampay');
+    }
+    
+    $payment_network = sanitize_text_field(wp_unslash($_POST['payment_network']));
+    $payment_number = sanitize_text_field(wp_unslash($_POST['payment_number']));
 
     if ( empty ( $payment_network ) || empty ( $payment_number )) {
       wc_add_notice('Invalid payment details.', 'error');
@@ -1087,7 +1116,8 @@ class AzamPay_Gateway extends WC_Payment_Gateway
   public function process_webhooks()
   {
 
-    if ((strtoupper($_SERVER['REQUEST_METHOD']) != 'POST')) {
+    $request_method = isset($_SERVER['REQUEST_METHOD']) ? sanitize_text_field(wp_unslash($_SERVER['REQUEST_METHOD'])) : '';
+    if (strtoupper($request_method) !== 'POST') {
       http_response_code(405);
       exit;
     }
@@ -1104,12 +1134,12 @@ class AzamPay_Gateway extends WC_Payment_Gateway
 
     if (empty($json)) {
       http_response_code(400);
-      esc_html_e(__('Payload empty.', 'azampay'));
+      esc_html_e('Payload empty.', 'azampay');
       exit;
     }
 
 
-    $data = json_decode($json);
+    $data = json_decode(sanitize_textarea_field($json));
 
     // make sure all required properties exist on payload
     foreach ($required_fields as $field) {

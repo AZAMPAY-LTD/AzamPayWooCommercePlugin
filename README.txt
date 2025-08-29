@@ -1,4 +1,4 @@
-=== AzamPay Payment Gateway for WooCommerce ===
+=== AzamPay Gateway for WooCommerce ===
 Contributors: azampay
 Tags: payment request, azampay, azampesa, tigopesa, airtel
 Requires at least: 6.0
