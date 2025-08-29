@@ -864,12 +864,6 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    */
   public function validate_fields()
   {
-    // Verify checkout nonce for security
-    if (!isset($_POST['woocommerce-process-checkout-nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['woocommerce-process-checkout-nonce'])), 'woocommerce-process_checkout')) {
-      wc_add_notice(__('Security verification failed. Please try again.', 'azampay'), 'error');
-      return false;
-    }
-    
     if (!isset($_POST['payment_number'], $_POST['payment_network'])) {
       wc_add_notice(__('Payment details are missing.', 'azampay'), 'error');
       return false;
@@ -902,11 +896,6 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    */
   public function azampay_checkout_update_order_meta($order_id)
   {
-    // Verify checkout nonce for security
-    if (!isset($_POST['woocommerce-process-checkout-nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['woocommerce-process-checkout-nonce'])), 'woocommerce-process_checkout')) {
-      return;
-    }
-    
     $order = wc_get_order( $order_id );
 
     if ( self::ID !== $order->get_payment_method() ) {
@@ -1032,11 +1021,6 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    */
   private function azampay_payment_processing($order)
   {
-    // Verify checkout nonce for security
-    if (!isset($_POST['woocommerce-process-checkout-nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['woocommerce-process-checkout-nonce'])), 'woocommerce-process_checkout')) {
-      return __('Security verification failed.', 'azampay');
-    }
-    
     if (!isset($_POST['payment_network'], $_POST['payment_number'])) {
       return __('Payment details are missing.', 'azampay');
     }
