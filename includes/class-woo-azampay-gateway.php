@@ -302,8 +302,8 @@ class AzamPay_Gateway extends WC_Payment_Gateway
           ?>
 
           <!-- Callback URL Notice -->
-   <h4>
-  <strong><?php /* translators: %s: The webhook callback URL. */ printf(esc_html__('Mandatory: To verify your transactions and update order status set your callback URL while registering your store to the URL below<span style="color: red"><pre><code>%s</code></pre></span>', 'azampay'), esc_url(get_site_url() . '/?wc-api=wc_azampay_webhook')); ?></strong>
+      <h4>
+        <strong><?php /* translators: %s: The webhook callback URL. */ printf(esc_html__('Mandatory: To verify your transactions and update order status set your callback URL while registering your store to the URL below<span style="color: red"><pre><code>%s</code></pre></span>', 'azampay'), esc_url(get_site_url() . '/?wc-api=wc_azampay_webhook')); ?></strong>
       </h4>
 
           <!-- Settings Form Table -->
@@ -860,6 +860,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Validate payment fields.
    *
    * @since 1.0.0
+   * @version 1.1.5
    * @return bool
    */
   public function validate_fields()
@@ -891,7 +892,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Add payment details to order.
    *
    * @since 1.0.0
-   * @version 1.1.0
+   * @version 1.1.5
    * @param int $order_id
    */
   public function azampay_checkout_update_order_meta($order_id)
