@@ -393,17 +393,12 @@ class AzamPay_Gateway extends WC_Payment_Gateway
   {
     parent::process_admin_options();
 
-    // Check if this is a settings update with proper nonce
-    $is_settings_save = isset($_POST['woocommerce_' . self::ID . '_enabled']) && isset($_POST['save']) && 
-                       current_user_can('manage_woocommerce') && 
-                       (isset($_POST['woocommerce-settings-nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['woocommerce-settings-nonce'])), 'woocommerce-settings'));
-    
     $this->allowed_partners = [
       'Azampesa' => true,
-      'HaloPesa' => $is_settings_save && isset($_POST['woocommerce_' . self::ID . '_halopesa_allowed']),
-      'Tigopesa' => $is_settings_save && isset($_POST['woocommerce_' . self::ID . '_tigopesa_allowed']),
-      'Airtel' => $is_settings_save && isset($_POST['woocommerce_' . self::ID . '_airtel_allowed']),
-      'vodacom' => $is_settings_save && isset($_POST['woocommerce_' . self::ID . '_vodacom_allowed']),
+      'HaloPesa' => isset($_POST['woocommerce_' . self::ID . '_halopesa_allowed']),
+      'Tigopesa' => isset($_POST['woocommerce_' . self::ID . '_tigopesa_allowed']),
+      'Airtel' => isset($_POST['woocommerce_' . self::ID . '_airtel_allowed']),
+      'vodacom' => isset($_POST['woocommerce_' . self::ID . '_vodacom_allowed']),
     ];
 
     $this->update_option('allowed_partners', $this->allowed_partners);
