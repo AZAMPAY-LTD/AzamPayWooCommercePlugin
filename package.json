@@ -10,12 +10,13 @@
     "npm": ">=8.19.2"
   },
   "devDependencies": {
-    "@woocommerce/dependency-extraction-webpack-plugin": "^2.2.0",
-    "@wordpress/scripts": "^31.4.0",
-    "cross-env": "7.0.3",
-    "webpack-dev-server": "^5.2.1"
+    "@woocommerce/dependency-extraction-webpack-plugin": "^2.3.0",
+    "@wordpress/scripts": "^31.5.0",
+    "cross-env": "7.0.3"
   },
   "overrides": {
+    "minimatch": "^9.0.3",
+    "serialize-javascript": "^7.0.3",
     "webpack-dev-server": "^5.2.1"
   },
   "scripts": {
