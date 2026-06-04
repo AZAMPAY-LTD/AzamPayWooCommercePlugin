@@ -545,9 +545,9 @@ class AzamPay_Gateway extends WC_Payment_Gateway
 
   /**
    * Generate token and return result.
-   * 
-   * @since 1.0.0
    *
+   * @since 1.0.0
+   * @version 1.1.6
    * @return array $result Token with its details.
    */
   private function generate_token()
@@ -614,8 +614,9 @@ class AzamPay_Gateway extends WC_Payment_Gateway
 
   /**
    * Get list of partners and return result.
-   * 
+   *
    * @since 1.0.0
+   * @version 1.1.6
    *
    * @return array $result Partners with their details.
    */

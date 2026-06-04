@@ -6,7 +6,7 @@ Tested up to: 6.8
 Requires PHP: 8.0
 WC requires at least: 10.1.0
 WC tested up to: 10.1.0
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 License: GPL-3.0+
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
