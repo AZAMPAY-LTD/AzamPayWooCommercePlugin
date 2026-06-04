@@ -90,7 +90,7 @@ final class AzamPay_Blocks_Support extends AbstractPaymentMethodType {
 	public function get_payment_method_data() {
     
 		return [
-      'enabled'     => $this->gateway->partners_result["success"] && $this->gateway->token_result["success"],
+      'enabled'     => $this->gateway->get_partners_result()["success"] && $this->gateway->get_token_result()["success"],
       'name'        => AzamPay_Gateway::ID,
 			'title'       => $this->gateway->title,
       'description' => $this->gateway->get_description(),

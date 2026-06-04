@@ -17,6 +17,30 @@ class AzamPay_Gateway extends WC_Payment_Gateway
 	const ID = 'azampaymomo';
 
 	/**
+	 * HTTP request timeout (seconds) for all AzamPay API calls.
+	 */
+	const HTTP_TIMEOUT = 15;
+
+	/**
+	 * Token cache: fallback TTL (seconds) when the API expiry can't be parsed,
+	 * how early to refresh before expiry, and an absolute ceiling.
+	 */
+	const TOKEN_TTL_FALLBACK = 3540;            // 59 minutes
+	const TOKEN_EXPIRY_SKEW  = 60;              // refresh 60s early
+	const TOKEN_TTL_CEILING  = DAY_IN_SECONDS;
+
+	/**
+	 * Partners list cache TTL (seconds). The list rarely changes.
+	 */
+	const PARTNERS_TTL = DAY_IN_SECONDS;
+
+	/**
+	 * Negative-cache TTL (seconds) after a failed partners fetch — short cooldown so
+	 * a sandbox outage doesn't hang every page load or hammer the API.
+	 */
+	const PARTNERS_FAIL_TTL = 60;
+
+	/**
 	 * Is test mode active?
 	 *
 	 * @var bool
@@ -141,18 +165,20 @@ class AzamPay_Gateway extends WC_Payment_Gateway
   private $client_credentials;
 
   /**
-   * Token result with its details.
-   * 
-   * @var array
+   * Token result with its details. Lazily loaded/cached; null until first access
+   * this request. Use ensure_token() / get_token_result() to read it.
+   *
+   * @var array|null
    */
-  public $token_result;
+  private $token_result = null;
 
   /**
-   * Partner details.
-   * 
-   * @var array
+   * Partner details. Lazily loaded/cached; null until first access this request.
+   * Use ensure_partners() / get_partners_result() to read it.
+   *
+   * @var array|null
    */
-  public $partners_result;
+  private $partners_result = null;
 
   /**
    * Constructor
@@ -198,8 +224,9 @@ class AzamPay_Gateway extends WC_Payment_Gateway
     $this->auth_url = self::$base_urls[$access_key . '_auth_url'];
     $this->base_url = self::$base_urls[$access_key . '_base_url'];
 
-    $this->token_result = $this->generate_token();
-    $this->partners_result = $this->get_all_partners();
+    // NOTE: the token + partners API calls are NOT made here. They are fetched
+    // lazily (and cached) via ensure_token() / ensure_partners() only when a
+    // consumer actually needs them — so non-checkout page loads make zero calls.
 
     // Hooks.
     add_action('admin_enqueue_scripts', [ $this, 'admin_scripts' ]);
@@ -402,6 +429,11 @@ class AzamPay_Gateway extends WC_Payment_Gateway
     ];
 
     $this->update_option('allowed_partners', $this->allowed_partners);
+
+    // Bust the token + partners caches so saved settings take effect immediately.
+    delete_transient($this->token_cache_key());
+    delete_transient($this->partners_cache_key());
+    delete_transient($this->partners_cache_key() . '_fail');
   }
 
 	/**
@@ -557,6 +589,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
       'success' => false,
       'message' => '',
       'token' => '',
+      'expire' => null,
       'code' => '',
     ];
 
@@ -576,7 +609,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
     // Generate token for App
     $token_request = wp_remote_post($this->auth_url . self::$endpoints['token'], [
       'method' => 'POST',
-      'timeout' => 300,
+      'timeout' => self::HTTP_TIMEOUT,
       'headers' => [
         'Accept' => 'application/json',
         'Content-Type' => 'application/json',
@@ -604,9 +637,11 @@ class AzamPay_Gateway extends WC_Payment_Gateway
     if ($token_response_code === 200) {
       $result['code'] = '200';
 
-      $result['token'] = json_decode(wp_remote_retrieve_body($token_request))->data->accessToken;
+      $token_body = json_decode(wp_remote_retrieve_body($token_request));
+      $result['token']  = $token_body->data->accessToken ?? '';
+      $result['expire'] = $token_body->data->expire ?? null;   // used for cache TTL
 
-      $result['success'] = true;
+      $result['success'] = !empty($result['token']);
     }
 
     return $result;
@@ -614,8 +649,9 @@ class AzamPay_Gateway extends WC_Payment_Gateway
 
   /**
    * Get list of partners and return result.
-   * 
+   *
    * @since 1.0.0
+   * @version 1.1.6
    *
    * @return array $result Partners with their details.
    */
@@ -640,30 +676,218 @@ class AzamPay_Gateway extends WC_Payment_Gateway
       return $result;
     }
 
-    $partners_request = wp_remote_get($this->base_url . self::$endpoints['partners'], [
-      'headers' => [
-        'timeout' => 300,
-        'Authorization' => 'Bearer ' . $this->token_result['token'],
-      ],
-    ]);
+    // The AzamPay sandbox intermittently returns HTTP 200 with an EMPTY body
+    // (verified: the same request seconds apart returns the full array, then empty).
+    // Retry a few times so a single flaky response doesn't blank out all partners;
+    // once a good response is cached upstream, this loop won't run again until TTL.
+    $max_attempts  = 3;
+    $attempt       = 0;
+    $http_code     = 0;
+    $partners_body = '';
+    $is_wp_error   = false;
+    $wp_error_msg  = null;
 
-    $partners_response = json_decode(wp_remote_retrieve_body($partners_request));
+    do {
+      $attempt++;
 
-    if (is_null($partners_response)) {
-      $result['message'] = 'Could not get payment partners.';
-    } elseif (!is_array($partners_response) && property_exists($partners_response, 'status') && $partners_response->status === 'Error') {
-      $result['message'] = property_exists($partners_response, 'message') ? 'Could not get payment partners. ' . $partners_response->message : 'Could not get payment partners.';
+      $partners_request = wp_remote_get($this->base_url . self::$endpoints['partners'], [
+        'timeout' => self::HTTP_TIMEOUT,
+        'headers' => [
+          'Accept' => 'application/json',
+          'Authorization' => 'Bearer ' . $this->token_result['token'],
+          'X-API-KEY' => $this->client_credentials['callback_token'],
+        ],
+      ]);
+
+      $is_wp_error   = is_wp_error($partners_request);
+      $http_code     = $is_wp_error ? 0 : (int) wp_remote_retrieve_response_code($partners_request);
+      $partners_body = $is_wp_error ? '' : (string) wp_remote_retrieve_body($partners_request);
+
+      // Good response: 200 with a non-empty, decodable body.
+      if (!$is_wp_error && $http_code === 200 && '' !== trim($partners_body)) {
+        $partners_response = json_decode($partners_body);
+
+        if (is_array($partners_response)) {
+          $result['success']  = true;
+          $result['partners'] = $partners_response;
+          return $result;
+        }
+
+        // A real API error object — don't keep retrying it.
+        if (is_object($partners_response) && property_exists($partners_response, 'status') && $partners_response->status === 'Error') {
+          $result['message'] = property_exists($partners_response, 'message')
+            ? 'Could not get payment partners. ' . $partners_response->message
+            : 'Could not get payment partners.';
+          return $result;
+        }
+      }
+
+      // Otherwise (empty body / non-200 / transport error) fall through and retry.
+    } while ($attempt < $max_attempts);
+
+    // Retries exhausted — report the most descriptive failure.
+    if (!$is_wp_error && $http_code === 200 && '' === trim($partners_body)) {
+      $result['message'] = 'Could not get payment partners (empty response).';
     } else {
-      $result['success'] = true;
-      $result['partners'] = $partners_response;
+      $result['message'] = 'Could not get payment partners.';
     }
 
     return $result;
   }
 
   /**
+   * Lazily resolve the API token: per-request memo → transient cache → live call.
+   * Successful results are cached until (just before) the token's expiry; failures
+   * are NOT cached so the next request can retry.
+   *
+   * @return array
+   */
+  private function ensure_token()
+  {
+    if ($this->token_result !== null) {
+      return $this->token_result;
+    }
+
+    $cached = get_transient($this->token_cache_key());
+    if (is_array($cached) && !empty($cached['success']) && !empty($cached['token'])) {
+      return $this->token_result = $cached;
+    }
+
+    $result = $this->generate_token();
+
+    if (!empty($result['success']) && !empty($result['token'])) {
+      set_transient($this->token_cache_key(), $result, $this->compute_token_ttl($result['expire'] ?? null));
+    }
+
+    return $this->token_result = $result;
+  }
+
+  /**
+   * Lazily resolve the payment partners: per-request memo → transient cache → live
+   * call (which depends on a valid token). Only successful results are cached.
+   *
+   * @return array
+   */
+  private function ensure_partners()
+  {
+    if ($this->partners_result !== null) {
+      return $this->partners_result;
+    }
+
+    $token = $this->ensure_token();
+    if (empty($token['success'])) {
+      return $this->partners_result = [
+        'success'  => false,
+        'message'  => 'Your credentials are invalid.',
+        'partners' => '',
+      ];
+    }
+
+    $cache_key = $this->partners_cache_key();
+
+    $cached = get_transient($cache_key);
+    if (is_array($cached) && !empty($cached['success'])) {
+      return $this->partners_result = $cached;
+    }
+
+    // Negative cache: the AzamPay sandbox intermittently goes down (connection
+    // resets / empty 200s). If a recent fetch failed, short-circuit for a short
+    // cooldown so we don't hang every page load and hammer (throttle) the API.
+    $fail_key = $cache_key . '_fail';
+    $failed   = get_transient($fail_key);
+    if (is_array($failed)) {
+      return $this->partners_result = $failed;
+    }
+
+    $result = $this->get_all_partners();
+
+    if (!empty($result['success'])) {
+      set_transient($cache_key, $result, self::PARTNERS_TTL);
+      delete_transient($fail_key);
+    } else {
+      set_transient($fail_key, $result, self::PARTNERS_FAIL_TTL);
+    }
+
+    return $this->partners_result = $result;
+  }
+
+  /**
+   * Public lazy accessor for the token result.
+   *
+   * @return array
+   */
+  public function get_token_result()
+  {
+    return $this->ensure_token();
+  }
+
+  /**
+   * Public lazy accessor for the partners result.
+   *
+   * @return array
+   */
+  public function get_partners_result()
+  {
+    return $this->ensure_partners();
+  }
+
+  /**
+   * Short hash of the active credentials so a credential change auto-orphans the
+   * old cache.
+   *
+   * @return string
+   */
+  private function cred_hash()
+  {
+    return substr(md5(implode('|', (array) $this->client_credentials)), 0, 12);
+  }
+
+  /**
+   * Environment + credential scoped transient keys (test/prod can never collide,
+   * and editing credentials invalidates the cache automatically).
+   *
+   * @return string
+   */
+  private function token_cache_key()
+  {
+    return 'azampay_token_' . ($this->testmode ? 'test' : 'prod') . '_' . $this->cred_hash();
+  }
+
+  private function partners_cache_key()
+  {
+    return 'azampay_partners_' . ($this->testmode ? 'test' : 'prod') . '_' . $this->cred_hash();
+  }
+
+  /**
+   * Compute a cache TTL (seconds) from the token's `expire` field, defensively
+   * handling its unknown format (epoch seconds, seconds-to-live, or a datetime
+   * string). Clamped between 60s and a one-day ceiling, refreshing slightly early.
+   *
+   * @param mixed $expire Raw `data.expire` value from the token response.
+   * @return int
+   */
+  private function compute_token_ttl($expire)
+  {
+    $now = time();
+    $ttl = self::TOKEN_TTL_FALLBACK;
+
+    if (is_numeric($expire)) {
+      $expire = (int) $expire;
+      // Large value → absolute Unix epoch seconds; small value → seconds-to-live.
+      $ttl = $expire > 1000000000 ? $expire - $now : $expire;
+    } elseif (is_string($expire) && $expire !== '') {
+      $ts = strtotime($expire);
+      if ($ts !== false) {
+        $ttl = $ts - $now;
+      }
+    }
+
+    return (int) max(60, min($ttl - self::TOKEN_EXPIRY_SKEW, self::TOKEN_TTL_CEILING));
+  }
+
+  /**
    * Generate description HTML and add test description if test mode is enabled.
-   * 
+   *
    * @since 1.1.0
    * @version 1.1.5
    * @return string description html.
@@ -693,9 +917,10 @@ class AzamPay_Gateway extends WC_Payment_Gateway
   {
     $allowed_partners = [];
 
-    if (!$this->partners_result["success"]) return $allowed_partners;
+    $partners_res = $this->ensure_partners();
+    if (!$partners_res["success"]) return $allowed_partners;
 
-    foreach ($this->partners_result['partners'] as $partner) {
+    foreach ($partners_res['partners'] as $partner) {
       $partner_name = $partner->partnerName;
 
       // skip partner if disabled
@@ -724,13 +949,17 @@ class AzamPay_Gateway extends WC_Payment_Gateway
       return;
     }
 
+    // Resolve token + partners once (lazy/cached) for this render.
+    $token_res    = $this->ensure_token();
+    $partners_res = $this->ensure_partners();
+
     // include plugin styling for checkout fields
     wp_enqueue_style('styles', WC_AZAMPAY_PLUGIN_URL . '/assets/public/css/azampay-styles.css', [], WC_AZAMPAY_VERSION);
 
     echo wp_kses_post($this->get_description());
 
     // Disable payment method selection if error
-    if (!$this->token_result['success'] || !$this->partners_result['success']) {
+    if (!$token_res['success'] || !$partners_res['success']) {
       ?>
         <script type="text/javascript">
           jQuery("input[name=\'payment_method\']").prop("checked", false);
@@ -740,17 +969,17 @@ class AzamPay_Gateway extends WC_Payment_Gateway
     }
 
     // Failed to generate token
-    if (!$this->token_result['success']) {
+    if (!$token_res['success']) {
       // error messages for admins and non admins
       $admin_message = '<a href="' . esc_url(admin_url('admin.php?page=wc-settings&tab=checkout&section=' . esc_attr($this->id))) . '" target="_blank">' . esc_html__('Click here to configure the plugin', 'azampay') . '</a>.';
       $non_admin_message = __('Contact store owner to have it fixed.', 'azampay');
 
       // Incorrect configuration
-      if ($this->token_result['code'] === '203') {
-        $message = current_user_can('manage_options') ? $this->token_result['message'] . ' ' . $admin_message : $this->token_result['message'] . ' ' . $non_admin_message;
+      if ($token_res['code'] === '203') {
+        $message = current_user_can('manage_options') ? $token_res['message'] . ' ' . $admin_message : $token_res['message'] . ' ' . $non_admin_message;
         $notice_type = 'notice';
       } else {
-        $message = $this->token_result['message'];
+        $message = $token_res['message'];
         $notice_type = 'error';
       }
 
@@ -761,9 +990,9 @@ class AzamPay_Gateway extends WC_Payment_Gateway
       return;
 
       // Failed to get partners
-    } elseif (!$this->partners_result['success']) {
-      if (!wc_has_notice($this->partners_result['message'], 'error')) {
-        wc_add_notice($this->partners_result['message'], 'error');
+    } elseif (!$partners_res['success']) {
+      if (!wc_has_notice($partners_res['message'], 'error')) {
+        wc_add_notice($partners_res['message'], 'error');
       }
 
       return;
@@ -1051,17 +1280,19 @@ class AzamPay_Gateway extends WC_Payment_Gateway
     ];
 
     // if token was not generated.
-    if (!$this->token_result['success']) {
-      wc_add_notice($this->token_result['message'], 'error');
+    $token_res = $this->ensure_token();
+    if (!$token_res['success']) {
+      wc_add_notice($token_res['message'], 'error');
       return false;
     } else {
       // send checkout request
       $checkout_request = wp_remote_post($this->base_url . self::$endpoints['mno'], [
         'method' => 'POST',
+        'timeout' => self::HTTP_TIMEOUT,
         'headers' => [
           'Accept' => 'application/json',
           'Content-Type' => 'application/json',
-          'Authorization' => 'Bearer ' . $this->token_result['token'],
+          'Authorization' => 'Bearer ' . $token_res['token'],
         ],
         'body' => json_encode($checkout_data),
       ]);
