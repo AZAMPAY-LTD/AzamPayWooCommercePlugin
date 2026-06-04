@@ -414,7 +414,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Save custom fields.
    * 
    * @since 1.0.0
-   * @version 1.1.2
+   * @version 1.1.6
    */
   public function process_admin_options()
   {
@@ -908,9 +908,10 @@ class AzamPay_Gateway extends WC_Payment_Gateway
 
   /**
    * Get list of partners that are allowed.
-   * 
+   *
    * @since 1.1.0
-   * 
+   * @version 1.1.6
+   *
    * @return array array of key-value pairs of the allowed partners and their values.
    */
   public function get_allowed_partners()
@@ -940,7 +941,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Display the payment fields.
    * 
    * @since 1.0.0
-   * @version 1.1.5
+   * @version 1.1.6
    */
   public function payment_fields()
   {
@@ -1246,7 +1247,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
    * Process payment through api.
    *
    * @since 1.0.0
-   * @version 1.1.0
+   * @version 1.1.6
    * @param  WC_Order $order Order object.
    * 
    * @return bool
