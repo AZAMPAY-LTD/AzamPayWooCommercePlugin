@@ -576,6 +576,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
     // Generate token for App
     $token_request = wp_remote_post($this->auth_url . self::$endpoints['token'], [
       'method' => 'POST',
+      'timeout' => 30,
       'headers' => [
         'Accept' => 'application/json',
         'Content-Type' => 'application/json',
@@ -641,6 +642,7 @@ class AzamPay_Gateway extends WC_Payment_Gateway
 
     $partners_request = wp_remote_get($this->base_url . self::$endpoints['partners'], [
       'headers' => [
+        'timeout' => 30,
         'Authorization' => 'Bearer ' . $this->token_result['token'],
       ],
     ]);
